@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#173d34">
+  <title>Matriz de Seguridad</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div><span class="eyebrow">Administración de accesos</span><h1>Matriz de seguridad</h1></div>
+    <div class="header-actions">
+      <button class="button ghost" id="importBtn">Importar</button>
+      <button class="button primary" id="exportBtn">Exportar avance</button>
+      <input type="file" id="fileInput" accept="application/json" hidden>
+    </div>
+  </header>
+  <main>
+    <section class="summary" aria-label="Resumen">
+      <div class="summary-copy"><p class="kicker">Avance del perfil</p><h2 id="profileTitle">Control de Stock</h2><p id="progressText">0 de 0 permisos definidos</p></div>
+      <div class="progress-wrap"><div class="progress-ring" id="progressRing"><strong id="progressPct">0%</strong></div><span id="saveStatus">Guardado en este dispositivo</span></div>
+    </section>
+
+    <section class="toolbar" aria-label="Filtros">
+      <label class="field profile-field"><span>Perfil</span><select id="profileSelect"></select></label>
+      <label class="field"><span>Módulo</span><select id="moduleSelect"><option value="all">Todos los módulos</option></select></label>
+      <label class="field search-field"><span>Buscar permiso</span><input id="searchInput" type="search" placeholder="Ej. inventario, cliente…"></label>
+      <label class="field"><span>Estado</span><select id="statusSelect"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="allow">Aplica</option><option value="deny">Sin acceso</option></select></label>
+    </section>
+
+    <nav class="quick-tabs" id="quickTabs" aria-label="Módulos"></nav>
+
+    <section class="bulkbar">
+      <div><strong id="resultCount">0 permisos</strong><span id="contextHint">Mostrando el catálogo completo</span></div>
+      <div class="bulk-actions"><button class="button small allow-outline" id="allAllow">Marcar visibles: Aplica</button><button class="button small deny-outline" id="allDeny">Marcar visibles: Sin acceso</button></div>
+    </section>
+
+    <section id="permissionList" class="permission-list" aria-live="polite"></section>
+    <div id="emptyState" class="empty" hidden><div>⌕</div><h3>No encontramos permisos</h3><p>Prueba con otro módulo, estado o palabra.</p></div>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
