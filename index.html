@@ -6,6 +6,9 @@
   <meta name="theme-color" content="#173d34">
   <title>Matriz de Seguridad</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="group-styles.css">
+  <link rel="stylesheet" href="matrix-styles.css">
+  <link rel="stylesheet" href="matrix-options.css">
 </head>
 <body>
   <header class="topbar">
@@ -18,6 +21,12 @@
     </div>
   </header>
   <main>
+    <nav class="view-switch" aria-label="Secciones principales">
+      <button class="view-tab active" id="permissionsTab">Permisos por perfil</button>
+      <button class="view-tab" id="matrixTab">Matriz general</button>
+      <button class="view-tab" id="groupsTab">Grupos de empleados</button>
+    </nav>
+    <div id="permissionsView">
     <section class="summary" aria-label="Resumen">
       <div class="summary-copy"><p class="kicker">Avance del perfil</p><h2 id="profileTitle">Control de Stock</h2><p id="progressText">0 de 0 permisos definidos</p></div>
       <div class="progress-wrap"><div class="progress-ring" id="progressRing"><strong id="progressPct">0%</strong></div><span id="saveStatus">Guardado en este dispositivo</span></div>
@@ -39,6 +48,25 @@
 
     <section id="permissionList" class="permission-list" aria-live="polite"></section>
     <div id="emptyState" class="empty" hidden><div>⌕</div><h3>No encontramos permisos</h3><p>Prueba con otro módulo, estado o palabra.</p></div>
+    </div>
+
+    <section id="groupsView" hidden>
+      <div class="groups-hero">
+        <div><p class="kicker">Organización del personal</p><h2>Grupos de empleados</h2><p>Asigna el perfil de seguridad que recibirá cada grupo de manera predeterminada.</p></div>
+        <div class="group-progress"><strong id="groupsAssigned">0 de 8</strong><span>grupos configurados</span></div>
+      </div>
+      <div class="groups-grid" id="groupsGrid"></div>
+      <div class="groups-note"><strong>¿Qué significa “perfil predeterminado”?</strong><span>Cuando una persona pertenezca a este grupo, se propone este perfil de seguridad. Podrás cambiarlo posteriormente si alguien necesita una excepción.</span></div>
+    </section>
+
+    <section id="matrixView" hidden>
+      <div class="matrix-hero">
+        <div><p class="kicker">Vista comparativa</p><h2>Matriz general de perfiles</h2><p>Compara y asigna permisos individuales o aplica una selección global por título y subtítulo.</p></div>
+        <label class="field matrix-search"><span>Buscar</span><input id="matrixSearch" type="search" placeholder="Buscar permiso o subtítulo…"></label>
+      </div>
+      <div class="matrix-legend"><span><b class="legend-dot allow-dot">A</b> Aplica</span><span><b class="legend-dot deny-dot">N</b> Sin acceso</span><span>Selecciona una de las dos opciones en cada permiso.</span></div>
+      <div class="matrix-scroll"><div class="matrix-table" id="matrixGrid"></div></div>
+    </section>
   </main>
   <div class="toast" id="toast" role="status"></div>
   <script src="app.js"></script>
