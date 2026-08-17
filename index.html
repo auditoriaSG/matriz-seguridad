@@ -5,18 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#173d34">
   <title>Matriz de Seguridad</title>
-  <link rel="stylesheet" href="styles.css?v=4">
-  <link rel="stylesheet" href="group-styles.css?v=4">
-  <link rel="stylesheet" href="matrix-styles.css?v=4">
-  <link rel="stylesheet" href="matrix-options.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="group-styles.css?v=5">
+  <link rel="stylesheet" href="matrix-styles.css?v=5">
+  <link rel="stylesheet" href="matrix-options.css?v=5">
 </head>
 <body>
   <header class="topbar">
     <div><span class="eyebrow">Administración de accesos</span><h1>Matriz de seguridad</h1></div>
     <div class="header-actions">
+      <span class="cloud-status" id="cloudStatus">Conectando…</span>
       <button class="button ghost" id="importBtn">Importar</button>
       <button class="button ghost" id="exportBtn">Exportar avance</button>
       <button class="button primary" id="saveBtn">Guardar cambios</button>
+      <button class="button ghost compact" id="logoutBtn" hidden>Salir</button>
       <input type="file" id="fileInput" accept="application/json" hidden>
     </div>
   </header>
@@ -68,7 +70,28 @@
       <div class="matrix-scroll"><div class="matrix-table" id="matrixGrid"></div></div>
     </section>
   </main>
+  <section class="login-overlay" id="loginOverlay" aria-label="Acceso a la matriz">
+    <form class="login-card" id="loginForm">
+      <p class="kicker">Base de datos compartida</p>
+      <h2>Entrar a la matriz</h2>
+      <p>Usa el correo y la contraseña que fueron registrados en Supabase.</p>
+      <label class="field"><span>Correo</span><input id="loginEmail" type="email" autocomplete="username" required></label>
+      <label class="field"><span>Contraseña</span><input id="loginPassword" type="password" autocomplete="current-password" required></label>
+      <button class="button primary login-button" id="loginBtn" type="submit">Entrar</button>
+      <p class="login-message" id="loginMessage" role="status"></p>
+    </form>
+  </section>
+  <section class="sync-overlay" id="firstSyncOverlay" hidden aria-label="Primera sincronización">
+    <div class="login-card sync-card">
+      <p class="kicker">Primera sincronización</p>
+      <h2>La nube todavía está vacía</h2>
+      <p>Para conservar tu trabajo, abre esta página en el navegador que tenga el avance más reciente y pulsa el siguiente botón.</p>
+      <button class="button primary login-button" id="uploadFirstBtn">Subir este avance a la nube</button>
+      <button class="button small" id="syncLaterBtn">Hacerlo después</button>
+    </div>
+  </section>
   <div class="toast" id="toast" role="status"></div>
-  <script src="app.js?v=4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

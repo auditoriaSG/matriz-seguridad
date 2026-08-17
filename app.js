@@ -1,4 +1,7 @@
 const PROFILES=['Control de Stock','Empleado','Encargado','Operaciones','Propietario','Recepcionista','Soporte'];
+const SUPABASE_URL='https://amlweohcbadjdqscoajp.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_EhpzIT3LJVEWkjfG3wQ9Ew_G1og6EiC';
+const dbClient=window.supabase?.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
 const EMPLOYEE_GROUPS=[
   {id:'terapeutas',name:'Grupo de Terapeutas',description:'Personal de terapeutas de sucursal',employees:7,previous:'Terapeuta'},
   {id:'doctores',name:'Grupo de Doctores',description:'Personal de doctores de sucursales',employees:9,previous:'Dr.'},
@@ -60,11 +63,28 @@ const defaultsDeny=new Set(['Eliminar cita','Modificar coste de cancelación','A
 const stockReports=new Set(['Stock: Etiquetas de producto para estanterías','Stock: Formulario de artículos no listados','Stock: Historial de movimientos de stock','Stock: Listado de precios de productos','Stock: Pedidos pendientes','Stock: Stock recibido','Stock: Sumario de stock recibido']);
 const STORAGE='matriz-seguridad-v1';let state;try{state=JSON.parse(localStorage.getItem(STORAGE))||{}}catch{state={}};
 if(!state.values)state.values={};if(!state.groups)state.groups={};
-permissions.forEach(p=>{const k=`Control de Stock|${p.id}`;if(state.values[k]===undefined){if(p.module==='ITEMS / REPORTES')state.values[k]=stockReports.has(p.name)?'allow':'deny';else if(p.module==='PANTALLAS')state.values[k]=p.type==='global'?(p.name==='Stock'?'allow':'deny'):null;else state.values[k]=defaultsDeny.has(p.name)?'deny':'allow';}});
+function ensureDefaults(){permissions.forEach(p=>{const k=`Control de Stock|${p.id}`;if(state.values[k]===undefined){if(p.module==='ITEMS / REPORTES')state.values[k]=stockReports.has(p.name)?'allow':'deny';else if(p.module==='PANTALLAS')state.values[k]=p.type==='global'?(p.name==='Stock'?'allow':'deny'):null;else state.values[k]=defaultsDeny.has(p.name)?'deny':'allow';}})}
+ensureDefaults();
 let currentProfile=state.currentProfile||PROFILES[0],moduleFilter='all',statusFilter='all',search='',matrixSearchText='';
 const $=s=>document.querySelector(s),esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function value(p){return state.values[`${currentProfile}|${p.id}`]||null}function blocked(p){return p.type==='sub'&&state.values[`${currentProfile}|${p.parent}`]==='deny'}
-function save(){state.currentProfile=currentProfile;localStorage.setItem(STORAGE,JSON.stringify(state));$('#saveStatus').textContent='Guardado ahora';setTimeout(()=>$('#saveStatus').textContent='Guardado en este dispositivo',1400)}
+let cloudReady=false,activeUser=null,cloudSaveTimer=null,cloudSaveRunning=false,cloudSaveQueued=false;
+function setCloudStatus(text,kind=''){$('#cloudStatus').textContent=text;$('#cloudStatus').className=`cloud-status ${kind}`.trim()}
+function cloudPayload(){return{values:state.values,groups:state.groups}}
+function saveLocal(){state.currentProfile=currentProfile;localStorage.setItem(STORAGE,JSON.stringify(state));$('#saveStatus').textContent='Guardado ahora';setTimeout(()=>$('#saveStatus').textContent=cloudReady?'Guardado en la nube':'Guardado en este dispositivo',1400)}
+function scheduleCloudSave(){if(!cloudReady||!activeUser)return;clearTimeout(cloudSaveTimer);setCloudStatus('Cambios pendientes…');cloudSaveTimer=setTimeout(()=>saveToCloud(true),700)}
+function save(){saveLocal();scheduleCloudSave()}
+async function saveToCloud(silent=false){
+  if(!cloudReady||!activeUser){if(!silent)toast('Guardado solamente en este dispositivo');return false}
+  if(cloudSaveRunning){cloudSaveQueued=true;return false}
+  cloudSaveRunning=true;setCloudStatus('Guardando en la nube…');
+  const {error}=await dbClient.from('matriz_seguridad').update({datos:cloudPayload(),actualizado_en:new Date().toISOString(),actualizado_por:activeUser.id}).eq('id','principal');
+  cloudSaveRunning=false;
+  if(error){setCloudStatus('No se pudo guardar','error');if(!silent)toast('No se pudo guardar en la nube');return false}
+  setCloudStatus('Guardado en la nube','saved');$('#saveStatus').textContent='Guardado en la nube';if(!silent)toast('Cambios guardados en la nube');
+  if(cloudSaveQueued){cloudSaveQueued=false;saveToCloud(true)}
+  return true
+}
 function countsAsRequired(p){return !p.deprecated&&!blocked(p)}
 function filtered(){return permissions.filter(p=>!p.deprecated&&(moduleFilter==='all'||p.module===moduleFilter)&&(!search||`${p.name} ${p.module} ${p.screen||''}`.toLowerCase().includes(search))&&(statusFilter==='all'||(statusFilter==='pending'&&!value(p)&&countsAsRequired(p))||value(p)===statusFilter))}
 function render(){const list=filtered();$('#resultCount').textContent=`${list.length} ${list.length===1?'permiso':'permisos'}`;$('#contextHint').textContent=moduleFilter==='all'?'Mostrando el catálogo completo':`Filtrado por ${moduleFilter}`;let html='',last='';list.forEach(p=>{if(p.module!==last){last=p.module;html+=`<h3 class="module-heading">${esc(last)} <span>${list.filter(x=>x.module===last).length}</span></h3>`}const v=value(p),isBlocked=blocked(p);html+=`<article class="card ${p.type==='global'?'global':''} ${p.type==='sub'?'child':''} ${isBlocked?'disabled':''}"><div><div class="permission-name">${p.type==='sub'?'↳ ':''}${esc(p.name)}</div><div class="permission-meta">${p.type==='global'?'<span class="global-tag">Acceso global a pantalla</span>':p.type==='sub'?`Subpermiso de ${esc(p.screen)}`:esc(p.module)}</div></div><div class="choices"><button class="choice allow ${v==='allow'?'selected':''}" data-id="${p.id}" data-v="allow" ${isBlocked?'disabled':''}>✓ Aplica</button><button class="choice deny ${v==='deny'?'selected':''}" data-id="${p.id}" data-v="deny" ${isBlocked?'disabled':''}>× Sin acceso</button></div></article>`});$('#permissionList').innerHTML=html;$('#emptyState').hidden=!!list.length;updateSummary()}
@@ -88,7 +108,28 @@ $('#groupsGrid').addEventListener('change',e=>{const select=e.target.closest('.g
 $('#matrixSearch').oninput=e=>{matrixSearchText=e.target.value.trim().toLowerCase();renderMatrix()};
 $('#matrixGrid').addEventListener('click',e=>{const global=e.target.closest('[data-global-scope]');if(global){const profile=global.dataset.profile,val=global.dataset.v,scope=global.dataset.globalScope,key=global.dataset.globalKey;const targets=permissions.filter(p=>!p.deprecated&&(scope==='title'?permissionTitle(p)===key:`${permissionTitle(p)}||${permissionSubtitle(p)}`===key));targets.forEach(p=>state.values[`${profile}|${p.id}`]=val);save();renderMatrix();toast(`${targets.length} permisos actualizados para ${profile}`);return}const cell=e.target.closest('[data-matrix-id]');if(!cell)return;state.values[`${cell.dataset.profile}|${cell.dataset.matrixId}`]=cell.dataset.matrixV;save();renderMatrix();toast(cell.dataset.matrixV==='allow'?'Marcado: Aplica':'Marcado: Sin acceso')});
 function bulk(v){const list=filtered().filter(p=>!blocked(p));if(!list.length)return;list.forEach(p=>state.values[`${currentProfile}|${p.id}`]=v);save();render();toast(`${list.length} permisos actualizados`)}$('#allAllow').onclick=()=>bulk('allow');$('#allDeny').onclick=()=>bulk('deny');
-$('#exportBtn').onclick=()=>{const payload={app:'Matriz de Seguridad',version:1,exportedAt:new Date().toISOString(),profiles:PROFILES,permissions,state};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`matriz-seguridad-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);toast('Copia exportada')};
-$('#saveBtn').onclick=()=>{save();toast('Cambios guardados en este dispositivo')};
-$('#importBtn').onclick=()=>$('#fileInput').click();$('#fileInput').onchange=async e=>{try{const data=JSON.parse(await e.target.files[0].text());if(!data.state?.values)throw 0;state=data.state;if(!state.groups)state.groups={};currentProfile=state.currentProfile||PROFILES[0];$('#profileSelect').value=currentProfile;save();render();renderGroups();toast('Avance importado correctamente')}catch{toast('El archivo no es una copia válida')}e.target.value=''};
+$('#exportBtn').onclick=()=>{const payload={app:'Matriz de Seguridad',version:2,exportedAt:new Date().toISOString(),profiles:PROFILES,permissions,state};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=`matriz-seguridad-${new Date().toISOString().slice(0,10)}.json`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);toast('Copia exportada')};
+$('#saveBtn').onclick=async()=>{saveLocal();await saveToCloud(false)};
+$('#importBtn').onclick=()=>$('#fileInput').click();$('#fileInput').onchange=async e=>{try{const data=JSON.parse(await e.target.files[0].text());if(!data.state?.values)throw 0;state=data.state;if(!state.groups)state.groups={};ensureDefaults();currentProfile=state.currentProfile||PROFILES[0];$('#profileSelect').value=currentProfile;saveLocal();render();renderGroups();if(cloudReady)await saveToCloud(true);toast(cloudReady?'Avance importado y guardado en la nube':'Avance importado correctamente')}catch{toast('El archivo no es una copia válida')}e.target.value=''};
+
+function cloudHasData(datos){return datos&&datos.values&&Object.keys(datos.values).some(k=>!k.startsWith('Control de Stock|'))}
+async function connectCloud(user){
+  activeUser=user;$('#loginOverlay').hidden=true;$('#logoutBtn').hidden=false;setCloudStatus('Cargando nube…');
+  const {data,error}=await dbClient.from('matriz_seguridad').select('datos,actualizado_en').eq('id','principal').single();
+  if(error){setCloudStatus('Error de conexión','error');toast('No se pudo cargar la base de datos');return}
+  if(!cloudHasData(data.datos)){$('#firstSyncOverlay').hidden=false;setCloudStatus('Primera sincronización pendiente');return}
+  const selectedProfile=currentProfile;
+  state.values=data.datos.values||{};state.groups=data.datos.groups||{};ensureDefaults();currentProfile=selectedProfile;saveLocal();
+  cloudReady=true;render();renderGroups();setCloudStatus('Conectado y actualizado','saved');$('#saveStatus').textContent='Guardado en la nube'
+}
+async function initCloud(){
+  if(!dbClient){setCloudStatus('Conexión no disponible','error');$('#loginMessage').textContent='No se pudo cargar la conexión segura.';return}
+  const {data:{session}}=await dbClient.auth.getSession();
+  if(session?.user)await connectCloud(session.user);else{$('#loginOverlay').hidden=false;setCloudStatus('Inicia sesión')}
+}
+$('#loginForm').onsubmit=async e=>{e.preventDefault();const button=$('#loginBtn');button.disabled=true;button.textContent='Entrando…';$('#loginMessage').textContent='';const {data,error}=await dbClient.auth.signInWithPassword({email:$('#loginEmail').value.trim(),password:$('#loginPassword').value});button.disabled=false;button.textContent='Entrar';if(error){$('#loginMessage').textContent='No pudimos entrar. Revisa el correo y la contraseña.';return}$('#loginPassword').value='';await connectCloud(data.user)};
+$('#uploadFirstBtn').onclick=async()=>{cloudReady=true;$('#firstSyncOverlay').hidden=true;const ok=await saveToCloud(false);if(!ok){cloudReady=false;$('#firstSyncOverlay').hidden=false}};
+$('#syncLaterBtn').onclick=()=>{$('#firstSyncOverlay').hidden=true;setCloudStatus('Nube pendiente','error');toast('El avance continúa guardado solo en este dispositivo')};
+$('#logoutBtn').onclick=async()=>{await dbClient.auth.signOut();cloudReady=false;activeUser=null;$('#logoutBtn').hidden=true;$('#loginOverlay').hidden=false;setCloudStatus('Sesión cerrada');toast('Sesión cerrada')};
 render();
+initCloud();
