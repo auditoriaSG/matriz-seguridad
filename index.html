@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#173d34">
   <title>Matriz de Seguridad</title>
-  <link rel="stylesheet" href="styles.css?v=6">
-  <link rel="stylesheet" href="group-styles.css?v=8">
+  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="group-styles.css?v=9">
   <link rel="stylesheet" href="matrix-styles.css?v=5">
   <link rel="stylesheet" href="matrix-options.css?v=5">
   <link rel="stylesheet" href="admin-styles.css?v=6">
@@ -21,11 +21,11 @@
   </header>
   <main>
     <nav class="view-switch" aria-label="Menú principal">
-      <div class="view-menu-root"><span>◆</span><div><strong>Menú principal</strong><small>Navegación del sistema</small></div></div>
+      <button class="view-menu-root active" id="homeTab"><span>◆</span><div><strong>Menú principal</strong><small>Pantalla principal</small></div></button>
       <div class="view-menu-group">
         <button class="view-menu-title menu-toggle" data-submenu="securitySubmenu" aria-expanded="true"><span><strong>Seguridad</strong><small>Accesos y roles</small></span><b>−</b></button>
         <div class="view-submenu" id="securitySubmenu">
-          <button class="view-tab active" id="permissionsTab"><span class="menu-branch"></span>Permisos por perfil</button>
+          <button class="view-tab" id="permissionsTab"><span class="menu-branch"></span>Permisos por perfil</button>
           <button class="view-tab" id="matrixTab"><span class="menu-branch"></span>Matriz general</button>
           <button class="view-tab" id="groupsTab"><span class="menu-branch"></span>Grupos de empleados</button>
           <button class="view-tab" id="securityUsersTab"><span class="menu-branch"></span>Usuarios y permisos</button>
@@ -39,7 +39,11 @@
       <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="trainingSubmenu" aria-expanded="false"><span><strong>Capacitación</strong><small>Tratamientos</small></span><b>+</b></button><div class="view-submenu" id="trainingSubmenu" hidden><button class="view-tab" data-owner-type="training"><span class="menu-branch"></span>Recetas e insumos</button></div></div>
       <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="systemsSubmenu" aria-expanded="false"><span><strong>Sistemas</strong><small>Soporte</small></span><b>+</b></button><div class="view-submenu" id="systemsSubmenu" hidden><button class="view-tab" data-owner-type="systems"><span class="menu-branch"></span>Tickets</button></div></div>
     </nav>
-    <div id="permissionsView">
+    <section id="homeView" class="home-view">
+      <div class="home-welcome"><p class="kicker">Panel principal</p><h2>Configuración administrativa</h2><p>Selecciona un área del menú vertical para consultar y administrar sus funciones.</p></div>
+      <div class="inheritance-card home-inheritance"><div><p class="kicker">Regla de herencia</p><h3>Global → Región MTY → Sucursal</h3><p>Si una sucursal no tiene una regla propia, utiliza la configuración regional; si la región tampoco tiene una regla, utiliza la global.</p></div><div class="inheritance-flow"><span>Global</span><b>→</b><span>MTY</span><b>→</b><span>Sucursal</span></div></div>
+    </section>
+    <div id="permissionsView" hidden>
     <section class="summary" aria-label="Resumen">
       <div class="summary-copy"><p class="kicker">Avance del perfil</p><h2 id="profileTitle">Control de Stock</h2><p id="progressText">0 de 0 permisos definidos</p></div>
       <div class="progress-wrap"><div class="progress-ring" id="progressRing"><strong id="progressPct">0%</strong></div><span id="saveStatus">Guardado en este dispositivo</span></div>
@@ -98,7 +102,7 @@
         <button class="config-type" data-config-type="systems"><span class="tree-dot"></span><div><strong>Sistemas</strong><small>Tickets · Seguimiento</small></div></button>
       </nav>
       <div class="config-content">
-      <section id="configOverview" class="config-overview">
+      <section id="configOverview" class="config-overview" hidden>
         <div class="inheritance-card"><div><p class="kicker">Regla de herencia</p><h3>Global → Región MTY → Sucursal</h3><p>Si una sucursal no tiene una regla propia, utiliza automáticamente la configuración regional; si la región tampoco tiene una regla, utiliza la global.</p></div><div class="inheritance-flow"><span>Global</span><b>→</b><span>MTY</span><b>→</b><span>Sucursal</span></div></div>
       </section>
       <section id="administrativeConfig">
@@ -181,6 +185,6 @@
   </section>
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=16"></script>
+  <script src="app.js?v=17"></script>
 </body>
 </html>
