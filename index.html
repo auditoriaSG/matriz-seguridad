@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#173d34">
   <title>Matriz de Seguridad</title>
-  <link rel="stylesheet" href="styles.css?v=5">
-  <link rel="stylesheet" href="group-styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="group-styles.css?v=6">
   <link rel="stylesheet" href="matrix-styles.css?v=5">
   <link rel="stylesheet" href="matrix-options.css?v=5">
   <link rel="stylesheet" href="admin-styles.css?v=6">
@@ -20,11 +20,18 @@
     </div>
   </header>
   <main>
-    <nav class="view-switch" aria-label="Secciones principales">
-      <button class="view-tab active" id="permissionsTab">Permisos por perfil</button>
-      <button class="view-tab" id="matrixTab">Matriz general</button>
-      <button class="view-tab" id="groupsTab">Grupos de empleados</button>
-      <button class="view-tab" id="adminTab">Configuraciones del sistema</button>
+    <nav class="view-switch" aria-label="Menú principal">
+      <div class="view-menu-root"><span>◆</span><div><strong>Menú principal</strong><small>Navegación del sistema</small></div></div>
+      <div class="view-menu-group">
+        <div class="view-menu-title"><strong>Seguridad</strong><small>Accesos y roles</small></div>
+        <button class="view-tab active" id="permissionsTab"><span class="menu-branch"></span>Permisos por perfil</button>
+        <button class="view-tab" id="matrixTab"><span class="menu-branch"></span>Matriz general</button>
+        <button class="view-tab" id="groupsTab"><span class="menu-branch"></span>Grupos de empleados</button>
+      </div>
+      <div class="view-menu-group">
+        <div class="view-menu-title"><strong>Administración</strong><small>Configuración general</small></div>
+        <button class="view-tab" id="adminTab"><span class="menu-branch"></span>Configuraciones del sistema</button>
+      </div>
     </nav>
     <div id="permissionsView">
     <section class="summary" aria-label="Resumen">
