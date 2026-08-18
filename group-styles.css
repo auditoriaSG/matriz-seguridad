@@ -10,3 +10,6 @@
 
 /* Un solo árbol: las áreas ya no se repiten dentro del contenido */
 .config-layout{grid-template-columns:1fr}.config-tree{display:none}.view-switch{max-height:calc(100vh - 135px);overflow-y:auto;scrollbar-width:thin}.config-content{min-width:0}
+
+/* La página controla el desplazamiento; el menú ya no recorta las ventanas */
+.view-switch{max-height:none;overflow:visible}.config-content,.admin-panel,.config-section{width:100%;max-width:100%}
