@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#173d34">
   <title>Matriz de Seguridad</title>
   <link rel="stylesheet" href="styles.css?v=7">
-  <link rel="stylesheet" href="group-styles.css?v=10">
+  <link rel="stylesheet" href="group-styles.css?v=11">
   <link rel="stylesheet" href="matrix-styles.css?v=5">
   <link rel="stylesheet" href="matrix-options.css?v=5">
   <link rel="stylesheet" href="admin-styles.css?v=6">
@@ -21,6 +21,7 @@
   </header>
   <main>
     <nav class="view-switch" aria-label="Menú principal">
+      <button class="sidebar-collapse" id="sidebarToggle" aria-label="Minimizar menú" aria-expanded="true">◀</button>
       <button class="view-menu-root active" id="homeTab"><span>◆</span><div><strong>Menú principal</strong><small>Pantalla principal</small></div></button>
       <div class="view-menu-group">
         <button class="view-menu-title menu-toggle" data-submenu="securitySubmenu" aria-expanded="true"><span><strong>Seguridad</strong><small>Accesos y roles</small></span><b>−</b></button>
@@ -185,6 +186,6 @@
   </section>
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=19"></script>
+  <script src="app.js?v=20"></script>
 </body>
 </html>
