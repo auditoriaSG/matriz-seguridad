@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="styles.css?v=7">
   <link rel="stylesheet" href="matrix-styles.css?v=5">
   <link rel="stylesheet" href="matrix-options.css?v=5">
-  <link rel="stylesheet" href="admin-styles.css?v=6">
+  <link rel="stylesheet" href="admin-styles.css?v=7">
   <link rel="stylesheet" href="group-styles.css?v=14">
   <link rel="stylesheet" href="home-map.css?v=1">
 </head>
@@ -43,7 +43,7 @@
     </nav>
     <section id="homeView" class="home-view">
       <div class="home-welcome"><p class="kicker">Panel principal</p><h2>Configuración administrativa</h2><p>Selecciona un área del menú vertical para consultar y administrar sus funciones.</p></div>
-      <div class="inheritance-card home-inheritance"><div><p class="kicker">Regla de herencia</p><h3>Global → Región MTY → Sucursal</h3><p>Si una sucursal no tiene una regla propia, utiliza la configuración regional; si la región tampoco tiene una regla, utiliza la global.</p></div><div class="inheritance-flow"><span>Global</span><b>→</b><span>MTY</span><b>→</b><span>Sucursal</span></div></div>
+      <div class="inheritance-card home-inheritance"><div><p class="kicker">Regla de herencia</p><h3>Global → Nuevo León → Monterrey → Sucursal</h3><p>La sucursal utiliza primero su configuración particular. Cuando un dato no está definido, lo hereda de Monterrey, después de Nuevo León y finalmente del nivel global.</p></div><div class="inheritance-flow"><span>Global</span><b>→</b><span>Nuevo León</span><b>→</b><span>Monterrey</span><b>→</b><span>Sucursal</span></div></div>
       <section class="home-map-panel" aria-labelledby="homeMapTitle">
         <div class="home-map-heading"><div><p class="kicker">Mapa funcional</p><h2 id="homeMapTitle">Estructura visual de SKINKLINIK</h2><p>Arrastra cualquier bloque con el mouse, el dedo o el Apple Pencil.</p></div><button class="button small" id="resetHomeMap">Restablecer acomodo</button></div>
         <div class="home-map-viewport" aria-label="Tablero móvil de la estructura del sistema">
@@ -114,7 +114,7 @@
 
     <section id="adminView" hidden>
       <div class="admin-hero">
-        <div><p class="kicker">Estructura general del proyecto</p><h2>Configuraciones del sistema</h2><p>La información se organiza por su alcance. Lo global se hereda a la región y a sus sucursales, salvo que exista una configuración particular.</p></div>
+        <div><p class="kicker">Estructura general del proyecto</p><h2>Configuraciones del sistema</h2><p>La información se organiza por su alcance: Global, Estado, Ciudad y Sucursal. Cada nivel hereda lo anterior salvo que tenga una configuración particular.</p></div>
         <button class="button primary" id="newEmployeeBtn">+ Nuevo empleado</button>
       </div>
       <div class="config-layout">
@@ -130,7 +130,7 @@
       </nav>
       <div class="config-content">
       <section id="configOverview" class="config-overview" hidden>
-        <div class="inheritance-card"><div><p class="kicker">Regla de herencia</p><h3>Global → Región MTY → Sucursal</h3><p>Si una sucursal no tiene una regla propia, utiliza automáticamente la configuración regional; si la región tampoco tiene una regla, utiliza la global.</p></div><div class="inheritance-flow"><span>Global</span><b>→</b><span>MTY</span><b>→</b><span>Sucursal</span></div></div>
+        <div class="inheritance-card"><div><p class="kicker">Regla de herencia</p><h3>Global → Nuevo León → Monterrey → Sucursal</h3><p>Una definición particular tiene prioridad. Si no existe, se consulta Monterrey, luego Nuevo León y por último la configuración global.</p></div><div class="inheritance-flow"><span>Global</span><b>→</b><span>Nuevo León</span><b>→</b><span>Monterrey</span><b>→</b><span>Sucursal</span></div></div>
       </section>
       <section id="administrativeConfig">
       <nav class="admin-tabs" aria-label="Capital Humano">
@@ -212,13 +212,13 @@
   </section>
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="src/domain/security-matrix.js?v=1"></script>
+  <script src="src/domain/security-matrix.js?v=2"></script>
   <script src="src/application/use-cases.js?v=1"></script>
   <script src="src/adapters/supabase-adapter.js?v=1"></script>
   <script src="src/adapters/browser-storage-adapter.js?v=1"></script>
   <script src="src/bootstrap.js?v=1"></script>
   <script src="navigation.js?v=1"></script>
   <script src="home-map.js?v=1"></script>
-  <script src="app.js?v=24"></script>
+  <script src="app.js?v=25"></script>
 </body>
 </html>

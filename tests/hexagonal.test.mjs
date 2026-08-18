@@ -11,7 +11,7 @@ for(const file of ['src/domain/security-matrix.js','src/application/use-cases.js
 
 const domain=context.window.SKDomain;
 const application=context.window.SKApplication;
-assert.deepEqual(JSON.parse(JSON.stringify(domain.normalizeState(null))),{values:{},groups:{},homeLayout:{}});
+assert.deepEqual(JSON.parse(JSON.stringify(domain.normalizeState(null))),{values:{},groups:{},homeLayout:{},groupRulesVersion:0});
 assert.equal(domain.hasConfiguredProfiles({values:{'Control de Stock|1':'allow'}}),false);
 assert.equal(domain.hasConfiguredProfiles({values:{'Empleado|1':'allow'}}),true);
 
@@ -28,7 +28,7 @@ const ports={
 };
 const app=application.createApplication(ports,domain);
 await app.matrix.saveCloud({values:{x:'allow'},groups:{}},'u1');
-assert.deepEqual(JSON.parse(JSON.stringify(savedPayload)),{values:{x:'allow'},groups:{},homeLayout:{}});
+assert.deepEqual(JSON.parse(JSON.stringify(savedPayload)),{values:{x:'allow'},groups:{},homeLayout:{},groupRulesVersion:0});
 const admin=await app.admin.load();
 assert.equal(admin.data.empleados[0].puesto,'Médico');
 console.log('Arquitectura hexagonal: pruebas superadas');

@@ -5,13 +5,14 @@
       ...source,
       values:source.values&&typeof source.values==='object'?source.values:{},
       groups:source.groups&&typeof source.groups==='object'?source.groups:{},
-      homeLayout:source.homeLayout&&typeof source.homeLayout==='object'?source.homeLayout:{}
+      homeLayout:source.homeLayout&&typeof source.homeLayout==='object'?source.homeLayout:{},
+      groupRulesVersion:Number.isFinite(source.groupRulesVersion)?source.groupRulesVersion:0
     };
   }
 
   function toCloudPayload(state){
     const normalized=normalizeState(state);
-    return {values:normalized.values,groups:normalized.groups,homeLayout:normalized.homeLayout};
+    return {values:normalized.values,groups:normalized.groups,homeLayout:normalized.homeLayout,groupRulesVersion:normalized.groupRulesVersion};
   }
 
   function hasConfiguredProfiles(payload){
