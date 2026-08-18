@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="matrix-options.css?v=5">
   <link rel="stylesheet" href="admin-styles.css?v=6">
   <link rel="stylesheet" href="group-styles.css?v=14">
+  <link rel="stylesheet" href="home-map.css?v=1">
 </head>
 <body>
   <header class="topbar">
@@ -43,6 +44,31 @@
     <section id="homeView" class="home-view">
       <div class="home-welcome"><p class="kicker">Panel principal</p><h2>Configuración administrativa</h2><p>Selecciona un área del menú vertical para consultar y administrar sus funciones.</p></div>
       <div class="inheritance-card home-inheritance"><div><p class="kicker">Regla de herencia</p><h3>Global → Región MTY → Sucursal</h3><p>Si una sucursal no tiene una regla propia, utiliza la configuración regional; si la región tampoco tiene una regla, utiliza la global.</p></div><div class="inheritance-flow"><span>Global</span><b>→</b><span>MTY</span><b>→</b><span>Sucursal</span></div></div>
+      <section class="home-map-panel" aria-labelledby="homeMapTitle">
+        <div class="home-map-heading"><div><p class="kicker">Mapa funcional</p><h2 id="homeMapTitle">Estructura visual de SKINKLINIK</h2><p>Arrastra cualquier bloque con el mouse, el dedo o el Apple Pencil.</p></div><button class="button small" id="resetHomeMap">Restablecer acomodo</button></div>
+        <div class="home-map-viewport" aria-label="Tablero móvil de la estructura del sistema">
+          <div class="home-map-board" id="homeMapBoard">
+            <svg class="map-connectors" id="homeMapLines" viewBox="0 0 1180 720" preserveAspectRatio="none" aria-hidden="true"></svg>
+            <article class="map-node map-system" data-map-node="system" tabindex="0"><strong>SKINKLINIK</strong><span>Sistema Integral</span></article>
+            <article class="map-node module blue" data-map-node="security" tabindex="0"><strong>1. Seguridad y accesos</strong><span>Grupos · Perfiles<br>Usuarios · Permisos</span></article>
+            <article class="map-node module green" data-map-node="agenda" tabindex="0"><strong>2. Agenda</strong><span>Citas · Reprogramación<br>Recordatorios · Historial</span></article>
+            <article class="map-node module teal" data-map-node="patients" tabindex="0"><strong>3. Pacientes</strong><span>Expediente · Fotos<br>Medidas · Consentimientos</span></article>
+            <article class="map-node module purple" data-map-node="pos" tabindex="0"><strong>4. Punto de venta</strong><span>Ventas · Paquetes<br>Pagos · Comprobantes</span></article>
+            <article class="map-node module orange" data-map-node="inventory" tabindex="0"><strong>5. Inventario</strong><span>Entradas · Salidas<br>Traspasos · Caducidades</span></article>
+            <article class="map-node module gold" data-map-node="authorizations" tabindex="0"><strong>6. Autorizaciones</strong><span>Folios · Descuentos<br>Reglas · Aprobaciones</span></article>
+            <article class="map-node module red" data-map-node="operations" tabindex="0"><strong>7. Operaciones</strong><span>Procesos · Cartas<br>Incidencias · Excepciones</span></article>
+            <article class="map-node module navy" data-map-node="audit" tabindex="0"><strong>8. Auditoría y reportes</strong><span>Ventas · Inventario<br>Bitácora · KPIs</span></article>
+            <article class="map-node map-branches" data-map-node="branches" tabindex="0"><strong>Sucursales, oficinas y áreas</strong><span>Nuevo León · Coahuila · Baja California · Sinaloa · CDMX<br>Operaciones · Auditoría · RH · Ventas · Sistemas · Capacitación</span></article>
+            <article class="map-node role blue" data-map-node="doctor" tabindex="0"><strong>Médico</strong><span>Consulta · Aplicación<br>Seguimiento · Notas clínicas</span></article>
+            <article class="map-node role green" data-map-node="manager" tabindex="0"><strong>Encargada</strong><span>Supervisión · Inventario<br>Reportes · Autorizaciones</span></article>
+            <article class="map-node role orange" data-map-node="executive" tabindex="0"><strong>Ejecutiva</strong><span>Ventas · Cotización<br>Seguimiento · Metas</span></article>
+            <article class="map-node role navy" data-map-node="reception" tabindex="0"><strong>Recepcionista</strong><span>Atención · Agenda<br>Cobros · Confirmaciones</span></article>
+            <article class="map-node role red" data-map-node="ops-role" tabindex="0"><strong>Operaciones</strong><span>Autorizaciones · Seguimiento<br>Cartas · Reportes</span></article>
+            <article class="map-node note" data-map-node="principles" tabindex="0"><strong>Principios</strong><span>Seguridad · Integridad<br>Eficiencia · Cumplimiento · Escalabilidad</span></article>
+          </div>
+        </div>
+        <p class="home-map-help">Consejo: también puedes seleccionar un bloque y moverlo con las flechas del teclado.</p>
+      </section>
     </section>
     <div id="permissionsView" hidden>
     <section class="summary" aria-label="Resumen">
@@ -192,6 +218,7 @@
   <script src="src/adapters/browser-storage-adapter.js?v=1"></script>
   <script src="src/bootstrap.js?v=1"></script>
   <script src="navigation.js?v=1"></script>
-  <script src="app.js?v=22"></script>
+  <script src="home-map.js?v=1"></script>
+  <script src="app.js?v=23"></script>
 </body>
 </html>

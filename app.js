@@ -105,6 +105,7 @@ AppNavigation.init({
   openMainView:showView,
   openOwnedArea:showOwnedArea
 });
+HomeMap.init({layout:state.homeLayout,onChange:layout=>{state.homeLayout=layout;save()}});
 $('#sidebarToggle').onclick=e=>{e.stopPropagation();const main=document.querySelector('main'),collapsed=main.classList.toggle('menu-collapsed');e.currentTarget.textContent=collapsed?'▶':'◀';e.currentTarget.setAttribute('aria-expanded',String(!collapsed));e.currentTarget.setAttribute('aria-label',collapsed?'Extender menú':'Minimizar menú')};
 $('#groupsGrid').addEventListener('change',e=>{const select=e.target.closest('.group-profile');if(!select)return;if(select.value)state.groups[select.dataset.group]=select.value;else delete state.groups[select.dataset.group];save();renderGroups();toast(select.value?'Perfil predeterminado asignado':'Asignación eliminada')});
 $('#matrixSearch').oninput=e=>{matrixSearchText=e.target.value.trim().toLowerCase();renderMatrix()};
@@ -117,7 +118,7 @@ async function connectCloud(user){
   if(error){setCloudStatus('Error de conexión','error');toast('No se pudo cargar la base de datos');return}
   if(!appCore.matrix.hasCloudData(data.datos)){$('#firstSyncOverlay').hidden=false;setCloudStatus('Primera sincronización pendiente');return}
   const selectedProfile=currentProfile;
-  state.values=data.datos.values||{};state.groups=data.datos.groups||{};ensureDefaults();currentProfile=selectedProfile;saveLocal();
+  state.values=data.datos.values||{};state.groups=data.datos.groups||{};state.homeLayout=data.datos.homeLayout||state.homeLayout||{};HomeMap.setLayout(state.homeLayout);ensureDefaults();currentProfile=selectedProfile;saveLocal();
   cloudReady=true;render();renderGroups();setCloudStatus('Conectado y actualizado','saved');$('#saveStatus').textContent='Guardado en la nube'
 }
 async function initCloud(){

@@ -4,13 +4,14 @@
     return {
       ...source,
       values:source.values&&typeof source.values==='object'?source.values:{},
-      groups:source.groups&&typeof source.groups==='object'?source.groups:{}
+      groups:source.groups&&typeof source.groups==='object'?source.groups:{},
+      homeLayout:source.homeLayout&&typeof source.homeLayout==='object'?source.homeLayout:{}
     };
   }
 
   function toCloudPayload(state){
     const normalized=normalizeState(state);
-    return {values:normalized.values,groups:normalized.groups};
+    return {values:normalized.values,groups:normalized.groups,homeLayout:normalized.homeLayout};
   }
 
   function hasConfiguredProfiles(payload){
