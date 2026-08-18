@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="group-styles.css?v=5">
   <link rel="stylesheet" href="matrix-styles.css?v=5">
   <link rel="stylesheet" href="matrix-options.css?v=5">
+  <link rel="stylesheet" href="admin-styles.css?v=1">
 </head>
 <body>
   <header class="topbar">
@@ -23,6 +24,7 @@
       <button class="view-tab active" id="permissionsTab">Permisos por perfil</button>
       <button class="view-tab" id="matrixTab">Matriz general</button>
       <button class="view-tab" id="groupsTab">Grupos de empleados</button>
+      <button class="view-tab" id="adminTab">Configuración administrativa</button>
     </nav>
     <div id="permissionsView">
     <section class="summary" aria-label="Resumen">
@@ -65,7 +67,61 @@
       <div class="matrix-legend"><span><b class="legend-dot allow-dot">A</b> Aplica</span><span><b class="legend-dot deny-dot">N</b> Sin acceso</span><span>Selecciona una de las dos opciones en cada permiso.</span></div>
       <div class="matrix-scroll"><div class="matrix-table" id="matrixGrid"></div></div>
     </section>
+
+    <section id="adminView" hidden>
+      <div class="admin-hero">
+        <div><p class="kicker">Administración general</p><h2>Configuración administrativa</h2><p>Organiza empleados, departamentos y puestos. El perfil asignado proviene de tu Matriz de Seguridad.</p></div>
+        <button class="button primary" id="newEmployeeBtn">+ Nuevo empleado</button>
+      </div>
+      <nav class="admin-tabs" aria-label="Configuración administrativa">
+        <button class="admin-tab active" data-admin-section="employees">Empleados</button>
+        <button class="admin-tab" data-admin-section="departments">Departamentos</button>
+        <button class="admin-tab" data-admin-section="positions">Puestos</button>
+        <button class="admin-tab" data-admin-section="profiles">Perfiles de seguridad</button>
+      </nav>
+      <div class="admin-status" id="adminStatus">Cargando información administrativa…</div>
+      <div id="adminEmployees" class="admin-panel"></div>
+      <div id="adminDepartments" class="admin-panel" hidden></div>
+      <div id="adminPositions" class="admin-panel" hidden></div>
+      <div id="adminProfiles" class="admin-panel" hidden></div>
+    </section>
   </main>
+
+  <dialog class="admin-dialog" id="employeeDialog">
+    <form method="dialog" id="employeeForm">
+      <div class="dialog-heading"><div><p class="kicker">Plantilla de personal</p><h2 id="employeeDialogTitle">Nuevo empleado</h2></div><button class="icon-close" value="cancel" aria-label="Cerrar">×</button></div>
+      <input type="hidden" id="employeeId">
+      <div class="form-grid">
+        <label class="field"><span>Número de empleado *</span><input id="employeeNumber" required></label>
+        <label class="field"><span>Nombre(s) *</span><input id="employeeNames" required></label>
+        <label class="field"><span>Apellido paterno</span><input id="employeeLastName"></label>
+        <label class="field"><span>Apellido materno</span><input id="employeeSecondLastName"></label>
+        <label class="field"><span>Correo</span><input id="employeeEmail" type="email"></label>
+        <label class="field"><span>Teléfono</span><input id="employeePhone" inputmode="tel"></label>
+        <label class="field"><span>Departamento</span><select id="employeeDepartment"></select></label>
+        <label class="field"><span>Puesto laboral</span><select id="employeePosition"></select></label>
+        <label class="field"><span>Sucursal</span><select id="employeeBranch"></select></label>
+        <label class="field"><span>Perfil de seguridad</span><select id="employeeProfile"></select></label>
+        <label class="field"><span>Estado laboral</span><select id="employeeState"><option value="ACTIVO">Activo</option><option value="SUSPENDIDO_TEMPORAL">Suspensión temporal</option><option value="TERMINADO">Terminación laboral</option></select></label>
+      </div>
+      <div class="dialog-actions"><button class="button" value="cancel">Cancelar</button><button class="button primary" id="saveEmployeeBtn" value="default">Guardar empleado</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="admin-dialog small-dialog" id="catalogDialog">
+    <form method="dialog" id="catalogForm">
+      <div class="dialog-heading"><div><p class="kicker" id="catalogKicker">Catálogo</p><h2 id="catalogTitle">Nuevo registro</h2></div><button class="icon-close" value="cancel" aria-label="Cerrar">×</button></div>
+      <input type="hidden" id="catalogType"><input type="hidden" id="catalogId">
+      <div class="form-grid single">
+        <label class="field"><span>Código *</span><input id="catalogCode" required></label>
+        <label class="field"><span>Nombre *</span><input id="catalogName" required></label>
+        <label class="field department-only"><span>Descripción</span><input id="catalogDescription"></label>
+        <label class="field position-only"><span>Clasificación</span><select id="catalogClassification"><option value="ADMINISTRATIVO">Administrativo</option><option value="OPERATIVO">Operativo</option></select></label>
+        <label class="field position-only"><span>Departamento</span><select id="catalogDepartment"></select></label>
+      </div>
+      <div class="dialog-actions"><button class="button" value="cancel">Cancelar</button><button class="button primary" id="saveCatalogBtn" value="default">Guardar</button></div>
+    </form>
+  </dialog>
   <section class="login-overlay" id="loginOverlay" aria-label="Acceso a la matriz">
     <form class="login-card" id="loginForm">
       <p class="kicker">Base de datos compartida</p>
@@ -88,6 +144,6 @@
   </section>
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=7"></script>
+  <script src="app.js?v=8"></script>
 </body>
 </html>
