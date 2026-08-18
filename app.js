@@ -1,14 +1,19 @@
 const PROFILES=['Control de Stock','Empleado','Encargado','Operaciones','Propietario','Recepcionista','Soporte'];
 const appCore=window.SKApp;
 const EMPLOYEE_GROUPS=[
-  {id:'terapeutas',name:'Grupo de Terapeutas',description:'Personal de terapeutas de sucursal',employees:7,previous:'Terapeuta'},
-  {id:'doctores',name:'Grupo de Doctores',description:'Personal de doctores de sucursales',employees:9,previous:'Dr.'},
-  {id:'recepcion',name:'Grupo de Recepción',description:'Personal de recepción',employees:3,previous:'Encargada'},
-  {id:'call_center',name:'Grupo de Call Center',description:'Personal administrativo',employees:1,previous:'Call Center'},
-  {id:'operaciones',name:'Grupo de Operaciones',description:'Personal de operaciones',employees:2,previous:'Encargada'},
-  {id:'ventas',name:'Grupo de Ventas',description:'Personal de ventas',employees:2,previous:'Ventas'},
-  {id:'auditoria',name:'Grupo de Auditoría',description:'Personal de auditoría',employees:3,previous:'Auditoría'},
-  {id:'soporte',name:'Grupo de Soporte',description:'Personal de soporte',employees:4,previous:'Sistemas'}
+  {id:'terapeutas',name:'Grupo de Terapeutas',description:'Personal terapeuta de las sucursales',employees:7,previous:'Terapeuta',defaultProfile:'Empleado'},
+  {id:'doctores',name:'Grupo de Médicos Máster',description:'Personal médico máster de las sucursales',employees:9,previous:'Dr.',defaultProfile:'Empleado'},
+  {id:'encargadas',name:'Grupo de Encargadas',description:'Personal responsable de la operación de sucursales',employees:0,previous:'Encargada',defaultProfile:'Encargado'},
+  {id:'operaciones',name:'Grupo de Operaciones',description:'Personal del departamento de operaciones',employees:2,previous:'Encargada',defaultProfile:'Operaciones'},
+  {id:'ventas',name:'Grupo de Ventas',description:'Personal del departamento de ventas',employees:2,previous:'Ventas',defaultProfile:'Operaciones'},
+  {id:'auxiliares_ventas',name:'Grupo de Auxiliares de Ventas',description:'Personal auxiliar de las funciones comerciales',employees:0,previous:'Ventas',defaultProfile:'Operaciones'},
+  {id:'direccion_general',name:'Grupo de Dirección General',description:'Personal de dirección general',employees:0,previous:'Dirección',defaultProfile:'Propietario'},
+  {id:'auditoria',name:'Grupo de Auditoría',description:'Personal del departamento de auditoría',employees:3,previous:'Auditoría',defaultProfile:'Propietario'},
+  {id:'ejecutivas',name:'Grupo de Ejecutivas',description:'Personal ejecutivo de atención y recepción',employees:0,previous:'Ejecutiva',defaultProfile:'Recepcionista'},
+  {id:'recepcion',name:'Grupo de Recepcionistas',description:'Personal de recepción de las sucursales',employees:3,previous:'Recepción',defaultProfile:'Recepcionista'},
+  {id:'soporte',name:'Grupo de Soporte',description:'Personal del departamento de soporte',employees:4,previous:'Sistemas',defaultProfile:'Soporte'},
+  {id:'almacen_central',name:'Grupo de Almacén Central',description:'Personal responsable del almacén central',employees:0,previous:'Almacén',defaultProfile:'Control de Stock'},
+  {id:'auxiliares_almacen',name:'Grupo de Auxiliares de Almacén',description:'Personal auxiliar que maneja inventario',employees:0,previous:'Almacén',defaultProfile:'Control de Stock'}
 ];
 const raw={
 'AGENDA':`Cambiar notas de visita de otros empleados|Cambiar tamaño de cita|Cambiar tamaño de tarea|Change Appointment Service|Crear cita|Crear cita con el asistente|Crear tarea|Create Employee Filter|Delete Employee Filter|Edit Employee Filter|Eliminar cita|Eliminar tarea|Modificar coste de cancelación|Mover cita|Mover tarea|Puede exceder tiempo límite reservado|Quitar “completo” en notas de visita|Repetir cita|Repetir tarea|Reprogramar cita|Superar la capacidad de una clase`,
@@ -61,7 +66,7 @@ const defaultsDeny=new Set(['Eliminar cita','Modificar coste de cancelación','A
 const stockReports=new Set(['Stock: Etiquetas de producto para estanterías','Stock: Formulario de artículos no listados','Stock: Historial de movimientos de stock','Stock: Listado de precios de productos','Stock: Pedidos pendientes','Stock: Stock recibido','Stock: Sumario de stock recibido']);
 let state=appCore?appCore.matrix.loadLocal():{};
 if(!state.values)state.values={};if(!state.groups)state.groups={};
-function ensureDefaults(){permissions.forEach(p=>{const k=`Control de Stock|${p.id}`;if(state.values[k]===undefined){if(p.module==='ITEMS / REPORTES')state.values[k]=stockReports.has(p.name)?'allow':'deny';else if(p.module==='PANTALLAS')state.values[k]=p.type==='global'?(p.name==='Stock'?'allow':'deny'):null;else state.values[k]=defaultsDeny.has(p.name)?'deny':'allow';}})}
+function ensureDefaults(){permissions.forEach(p=>{const k=`Control de Stock|${p.id}`;if(state.values[k]===undefined){if(p.module==='ITEMS / REPORTES')state.values[k]=stockReports.has(p.name)?'allow':'deny';else if(p.module==='PANTALLAS')state.values[k]=p.type==='global'?(p.name==='Stock'?'allow':'deny'):null;else state.values[k]=defaultsDeny.has(p.name)?'deny':'allow';}});EMPLOYEE_GROUPS.forEach(g=>{if(!state.groups[g.id])state.groups[g.id]=g.defaultProfile})}
 ensureDefaults();
 let currentProfile=state.currentProfile||PROFILES[0],moduleFilter='all',statusFilter='all',search='',matrixSearchText='';
 const $=s=>document.querySelector(s),esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
