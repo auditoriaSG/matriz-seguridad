@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="group-styles.css?v=5">
   <link rel="stylesheet" href="matrix-styles.css?v=5">
   <link rel="stylesheet" href="matrix-options.css?v=5">
-  <link rel="stylesheet" href="admin-styles.css?v=5">
+  <link rel="stylesheet" href="admin-styles.css?v=6">
 </head>
 <body>
   <header class="topbar">
@@ -76,31 +76,37 @@
       <div class="config-layout">
       <nav class="config-tree" aria-label="Árbol de configuraciones">
         <div class="tree-root"><span>◆</span><div><strong>Configuraciones</strong><small>Estructura principal</small></div></div>
-        <button class="config-type active" data-config-type="administrative"><span class="tree-dot"></span><div><strong>Administrativa</strong><small>Empleados · Puestos · Perfiles</small></div></button>
-        <button class="config-type" data-config-type="regional"><span class="tree-dot"></span><div><strong>Regional</strong><small>MTY · Sucursales · Excepciones</small></div></button>
-        <button class="config-type" data-config-type="general"><span class="tree-dot"></span><div><strong>General</strong><small>Productos · Servicios · Clientes</small></div></button>
-        <button class="config-type" data-config-type="departmental"><span class="tree-dot"></span><div><strong>Por departamento</strong><small>RH · Ventas · Capacitación · Sistemas</small></div></button>
+        <button class="config-type active" data-config-type="rh"><span class="tree-dot"></span><div><strong>RH</strong><small>Empleados · Departamentos · Puestos</small></div></button>
+        <button class="config-type" data-config-type="security"><span class="tree-dot"></span><div><strong>Seguridad</strong><small>Usuarios · Perfiles · Permisos</small></div></button>
+        <button class="config-type" data-config-type="regional"><span class="tree-dot"></span><div><strong>Configuración regional</strong><small>Sucursales · Regiones · Excepciones</small></div></button>
+        <button class="config-type" data-config-type="general"><span class="tree-dot"></span><div><strong>Configuración general</strong><small>Productos · Catálogos globales</small></div></button>
+        <button class="config-type" data-config-type="stock"><span class="tree-dot"></span><div><strong>Stock</strong><small>Existencias · Movimientos</small></div></button>
+        <button class="config-type" data-config-type="sales"><span class="tree-dot"></span><div><strong>Ventas</strong><small>Servicios · Precios · Promociones</small></div></button>
+        <button class="config-type" data-config-type="training"><span class="tree-dot"></span><div><strong>Capacitación</strong><small>Recetas · Insumos</small></div></button>
+        <button class="config-type" data-config-type="systems"><span class="tree-dot"></span><div><strong>Sistemas</strong><small>Tickets · Seguimiento</small></div></button>
       </nav>
       <div class="config-content">
       <section id="configOverview" class="config-overview">
         <div class="inheritance-card"><div><p class="kicker">Regla de herencia</p><h3>Global → Región MTY → Sucursal</h3><p>Si una sucursal no tiene una regla propia, utiliza automáticamente la configuración regional; si la región tampoco tiene una regla, utiliza la global.</p></div><div class="inheritance-flow"><span>Global</span><b>→</b><span>MTY</span><b>→</b><span>Sucursal</span></div></div>
       </section>
       <section id="administrativeConfig">
-      <nav class="admin-tabs" aria-label="Configuración administrativa">
+      <nav class="admin-tabs" aria-label="Recursos Humanos">
         <button class="admin-tab active" data-admin-section="employees">Empleados</button>
         <button class="admin-tab" data-admin-section="departments">Departamentos</button>
         <button class="admin-tab" data-admin-section="positions">Puestos</button>
-        <button class="admin-tab" data-admin-section="profiles">Perfiles de seguridad</button>
       </nav>
       <div class="admin-status" id="adminStatus">Cargando información administrativa…</div>
       <div id="adminEmployees" class="admin-panel"></div>
       <div id="adminDepartments" class="admin-panel" hidden></div>
       <div id="adminPositions" class="admin-panel" hidden></div>
-      <div id="adminProfiles" class="admin-panel" hidden></div>
       </section>
+      <section id="securityConfig" class="config-section" hidden><div id="adminProfiles" class="admin-panel"></div></section>
       <section id="regionalConfig" class="config-section" hidden></section>
       <section id="generalConfig" class="config-section" hidden></section>
-      <section id="departmentalConfig" class="config-section" hidden></section>
+      <section id="stockConfig" class="config-section" hidden></section>
+      <section id="salesConfig" class="config-section" hidden></section>
+      <section id="trainingConfig" class="config-section" hidden></section>
+      <section id="systemsConfig" class="config-section" hidden></section>
       </div>
       </div>
     </section>
@@ -163,6 +169,6 @@
   </section>
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=12"></script>
+  <script src="app.js?v=13"></script>
 </body>
 </html>
