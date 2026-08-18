@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#173d34">
   <title>Matriz de Seguridad</title>
   <link rel="stylesheet" href="styles.css?v=6">
-  <link rel="stylesheet" href="group-styles.css?v=6">
+  <link rel="stylesheet" href="group-styles.css?v=7">
   <link rel="stylesheet" href="matrix-styles.css?v=5">
   <link rel="stylesheet" href="matrix-options.css?v=5">
   <link rel="stylesheet" href="admin-styles.css?v=6">
@@ -23,15 +23,21 @@
     <nav class="view-switch" aria-label="Menú principal">
       <div class="view-menu-root"><span>◆</span><div><strong>Menú principal</strong><small>Navegación del sistema</small></div></div>
       <div class="view-menu-group">
-        <div class="view-menu-title"><strong>Seguridad</strong><small>Accesos y roles</small></div>
-        <button class="view-tab active" id="permissionsTab"><span class="menu-branch"></span>Permisos por perfil</button>
-        <button class="view-tab" id="matrixTab"><span class="menu-branch"></span>Matriz general</button>
-        <button class="view-tab" id="groupsTab"><span class="menu-branch"></span>Grupos de empleados</button>
+        <button class="view-menu-title menu-toggle" data-submenu="securitySubmenu" aria-expanded="true"><span><strong>Seguridad</strong><small>Accesos y roles</small></span><b>Ver menos</b></button>
+        <div class="view-submenu" id="securitySubmenu">
+          <button class="view-tab active" id="permissionsTab"><span class="menu-branch"></span>Permisos por perfil</button>
+          <button class="view-tab" id="matrixTab"><span class="menu-branch"></span>Matriz general</button>
+          <button class="view-tab" id="groupsTab"><span class="menu-branch"></span>Grupos de empleados</button>
+          <button class="view-tab" id="securityUsersTab"><span class="menu-branch"></span>Usuarios y permisos</button>
+        </div>
       </div>
-      <div class="view-menu-group">
-        <div class="view-menu-title"><strong>Administración</strong><small>Configuración general</small></div>
-        <button class="view-tab" id="adminTab"><span class="menu-branch"></span>Configuraciones del sistema</button>
-      </div>
+      <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="rhSubmenu" aria-expanded="false"><span><strong>RH</strong><small>Plantilla laboral</small></span><b>Ver más</b></button><div class="view-submenu" id="rhSubmenu" hidden><button class="view-tab" data-owner-type="rh" data-owner-section="employees"><span class="menu-branch"></span>Empleados</button><button class="view-tab" data-owner-type="rh" data-owner-section="departments"><span class="menu-branch"></span>Departamentos</button><button class="view-tab" data-owner-type="rh" data-owner-section="positions"><span class="menu-branch"></span>Puestos</button></div></div>
+      <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="regionalSubmenu" aria-expanded="false"><span><strong>Configuración regional</strong><small>Sucursales y regiones</small></span><b>Ver más</b></button><div class="view-submenu" id="regionalSubmenu" hidden><button class="view-tab" data-owner-type="regional"><span class="menu-branch"></span>Sucursales</button></div></div>
+      <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="generalSubmenu" aria-expanded="false"><span><strong>Configuración general</strong><small>Catálogos globales</small></span><b>Ver más</b></button><div class="view-submenu" id="generalSubmenu" hidden><button class="view-tab" data-owner-type="general"><span class="menu-branch"></span>Productos</button></div></div>
+      <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="stockSubmenu" aria-expanded="false"><span><strong>Stock</strong><small>Inventario</small></span><b>Ver más</b></button><div class="view-submenu" id="stockSubmenu" hidden><button class="view-tab" data-owner-type="stock"><span class="menu-branch"></span>Existencias</button></div></div>
+      <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="salesSubmenu" aria-expanded="false"><span><strong>Ventas</strong><small>Oferta comercial</small></span><b>Ver más</b></button><div class="view-submenu" id="salesSubmenu" hidden><button class="view-tab" data-owner-type="sales"><span class="menu-branch"></span>Servicios y precios</button></div></div>
+      <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="trainingSubmenu" aria-expanded="false"><span><strong>Capacitación</strong><small>Tratamientos</small></span><b>Ver más</b></button><div class="view-submenu" id="trainingSubmenu" hidden><button class="view-tab" data-owner-type="training"><span class="menu-branch"></span>Recetas e insumos</button></div></div>
+      <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="systemsSubmenu" aria-expanded="false"><span><strong>Sistemas</strong><small>Soporte</small></span><b>Ver más</b></button><div class="view-submenu" id="systemsSubmenu" hidden><button class="view-tab" data-owner-type="systems"><span class="menu-branch"></span>Tickets</button></div></div>
     </nav>
     <div id="permissionsView">
     <section class="summary" aria-label="Resumen">
@@ -84,7 +90,6 @@
       <nav class="config-tree" aria-label="Árbol de configuraciones">
         <div class="tree-root"><span>◆</span><div><strong>Configuraciones</strong><small>Estructura principal</small></div></div>
         <button class="config-type active" data-config-type="rh"><span class="tree-dot"></span><div><strong>RH</strong><small>Empleados · Departamentos · Puestos</small></div></button>
-        <button class="config-type" data-config-type="security"><span class="tree-dot"></span><div><strong>Seguridad</strong><small>Usuarios · Perfiles · Permisos</small></div></button>
         <button class="config-type" data-config-type="regional"><span class="tree-dot"></span><div><strong>Configuración regional</strong><small>Sucursales · Regiones · Excepciones</small></div></button>
         <button class="config-type" data-config-type="general"><span class="tree-dot"></span><div><strong>Configuración general</strong><small>Productos · Catálogos globales</small></div></button>
         <button class="config-type" data-config-type="stock"><span class="tree-dot"></span><div><strong>Stock</strong><small>Existencias · Movimientos</small></div></button>
@@ -176,6 +181,6 @@
   </section>
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=14"></script>
+  <script src="app.js?v=15"></script>
 </body>
 </html>
