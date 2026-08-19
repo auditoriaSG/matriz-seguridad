@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="styles.css?v=7">
   <link rel="stylesheet" href="matrix-styles.css?v=5">
   <link rel="stylesheet" href="matrix-options.css?v=5">
-  <link rel="stylesheet" href="admin-styles.css?v=13">
+  <link rel="stylesheet" href="admin-styles.css?v=14">
   <link rel="stylesheet" href="group-styles.css?v=15">
   <link rel="stylesheet" href="home-map.css?v=1">
 </head>
@@ -159,7 +159,7 @@
       <div class="dialog-heading"><div><p class="kicker">Plantilla de personal</p><h2 id="employeeDialogTitle">Nuevo empleado</h2></div><button class="icon-close" value="cancel" aria-label="Cerrar">×</button></div>
       <input type="hidden" id="employeeId">
       <div class="form-grid">
-        <label class="field"><span>Clave única del empleado *</span><input id="employeeNumber" required autocomplete="off" placeholder="Ej. ACT-001"></label>
+        <label class="field employee-id-field"><span>ID único del empleado</span><input id="employeeNumber" required readonly autocomplete="off" aria-describedby="employeeIdHelp"><small id="employeeIdHelp">Se genera automáticamente y no se puede repetir.</small></label>
         <label class="field"><span>Nombre(s) *</span><input id="employeeNames" required></label>
         <label class="field"><span>Apellido paterno</span><input id="employeeLastName"></label>
         <label class="field"><span>Apellido materno</span><input id="employeeSecondLastName"></label>
@@ -223,6 +223,6 @@
   <script src="src/bootstrap.js?v=1"></script>
   <script src="navigation.js?v=1"></script>
   <script src="home-map.js?v=1"></script>
-  <script src="app.js?v=38"></script>
+  <script src="app.js?v=39"></script>
 </body>
 </html>
