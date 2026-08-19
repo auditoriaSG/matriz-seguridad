@@ -156,7 +156,7 @@
 
   <dialog class="admin-dialog" id="employeeDialog">
     <form method="dialog" id="employeeForm">
-      <div class="dialog-heading"><div><p class="kicker">Plantilla de personal</p><h2 id="employeeDialogTitle">Nuevo empleado</h2></div><button class="icon-close" value="cancel" aria-label="Cerrar">×</button></div>
+      <div class="dialog-heading"><div><p class="kicker">Plantilla de personal</p><h2 id="employeeDialogTitle">Nuevo empleado</h2></div><button class="icon-close" id="closeEmployeeDialog" type="button" aria-label="Cerrar">×</button></div>
       <input type="hidden" id="employeeId">
       <div class="form-grid">
         <label class="field employee-id-field"><span>ID único del empleado</span><input id="employeeNumber" required readonly autocomplete="off" aria-describedby="employeeIdHelp"><small id="employeeIdHelp">Se genera automáticamente y no se puede repetir.</small></label>
@@ -176,7 +176,7 @@
         <label class="field"><span>Estado laboral</span><select id="employeeState"><option value="ACTIVO">Activo</option><option value="SUSPENDIDO_TEMPORAL">Suspensión temporal</option><option value="TERMINADO">Terminación laboral</option></select></label>
       </div>
       <select id="employeeProfile" hidden aria-hidden="true" tabindex="-1"></select>
-      <div class="dialog-actions"><button class="button" value="cancel">Cancelar</button><button class="button primary" id="saveEmployeeBtn" value="default">Guardar empleado</button></div>
+      <div class="dialog-actions"><button class="button" id="cancelEmployeeDialog" type="button">Cancelar</button><button class="button primary" id="saveEmployeeBtn" value="default">Guardar empleado</button></div>
     </form>
   </dialog>
 
@@ -223,6 +223,6 @@
   <script src="src/bootstrap.js?v=1"></script>
   <script src="navigation.js?v=1"></script>
   <script src="home-map.js?v=1"></script>
-  <script src="app.js?v=43"></script>
+  <script src="app.js?v=44"></script>
 </body>
 </html>
