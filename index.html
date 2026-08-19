@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="styles.css?v=7">
   <link rel="stylesheet" href="matrix-styles.css?v=5">
   <link rel="stylesheet" href="matrix-options.css?v=5">
-  <link rel="stylesheet" href="admin-styles.css?v=12">
+  <link rel="stylesheet" href="admin-styles.css?v=13">
   <link rel="stylesheet" href="group-styles.css?v=15">
   <link rel="stylesheet" href="home-map.css?v=1">
 </head>
@@ -168,9 +168,14 @@
         <label class="field"><span>Departamento</span><select id="employeeDepartment"></select></label>
         <label class="field"><span>Puesto laboral</span><select id="employeePosition"></select></label>
         <label class="field"><span>Sucursal</span><select id="employeeBranch"></select></label>
-        <label class="field"><span>Perfil de seguridad</span><select id="employeeProfile"></select></label>
+        <div class="security-assignment-notice">
+          <span>Perfil sugerido para Sistemas</span>
+          <strong id="employeeSuggestedProfile">Pendiente de calcular</strong>
+          <small>Se calcula con el puesto y departamento. Capital Humano no asigna permisos; Sistemas recibe y confirma la solicitud.</small>
+        </div>
         <label class="field"><span>Estado laboral</span><select id="employeeState"><option value="ACTIVO">Activo</option><option value="SUSPENDIDO_TEMPORAL">Suspensión temporal</option><option value="TERMINADO">Terminación laboral</option></select></label>
       </div>
+      <select id="employeeProfile" hidden aria-hidden="true" tabindex="-1"></select>
       <div class="dialog-actions"><button class="button" value="cancel">Cancelar</button><button class="button primary" id="saveEmployeeBtn" value="default">Guardar empleado</button></div>
     </form>
   </dialog>
@@ -218,6 +223,6 @@
   <script src="src/bootstrap.js?v=1"></script>
   <script src="navigation.js?v=1"></script>
   <script src="home-map.js?v=1"></script>
-  <script src="app.js?v=37"></script>
+  <script src="app.js?v=38"></script>
 </body>
 </html>
