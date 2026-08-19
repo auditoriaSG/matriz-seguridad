@@ -6,7 +6,7 @@ const EMPLOYEE_GROUPS=[
   {id:'terapeutas_master',name:'Grupo de Terapeutas Máster',description:'Personal terapeuta máster de las sucursales',employees:0,previous:'Terapeuta Máster',defaultProfile:'Empleado'},
   {id:'doctores',name:'Grupo de Médicos',description:'Personal médico de las sucursales',employees:9,previous:'Dr.',defaultProfile:'Empleado'},
   {id:'director_medico',name:'Grupo de Dirección Médica',description:'Personal con puesto de director médico',employees:0,previous:'Director Médico',defaultProfile:'Empleado'},
-  {id:'encargadas',name:'Grupo de Encargadas',description:'Personal responsable de la operación de sucursales',employees:0,previous:'Encargada',defaultProfile:'Encargado'},
+  {id:'encargadas',name:'Grupo de Encargadas',description:'Personal responsable de las sucursales',employees:0,previous:'Encargada',defaultProfile:'Encargado'},
   {id:'operaciones',name:'Grupo de Operaciones',description:'Personal del departamento de operaciones',employees:2,previous:'Encargada',defaultProfile:'Operaciones'},
   {id:'ventas',name:'Grupo de Ventas',description:'Personal del departamento de ventas',employees:2,previous:'Ventas',defaultProfile:'Operaciones'},
   {id:'auxiliares_ventas',name:'Grupo de Auxiliares de Ventas',description:'Personal auxiliar de las funciones comerciales',employees:0,previous:'Ventas',defaultProfile:'Operaciones'},
