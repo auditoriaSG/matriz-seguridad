@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="styles.css?v=7">
   <link rel="stylesheet" href="matrix-styles.css?v=5">
   <link rel="stylesheet" href="matrix-options.css?v=5">
-  <link rel="stylesheet" href="admin-styles.css?v=11">
+  <link rel="stylesheet" href="admin-styles.css?v=12">
   <link rel="stylesheet" href="group-styles.css?v=15">
   <link rel="stylesheet" href="home-map.css?v=1">
 </head>
@@ -33,7 +33,7 @@
           <button class="view-tab" id="securityUsersTab"><span class="menu-branch"></span>Usuarios y permisos</button>
         </div>
       </div>
-      <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="rhSubmenu" aria-expanded="false"><span><strong>Capital Humano</strong><small>Plantilla laboral</small></span><b>+</b></button><div class="view-submenu" id="rhSubmenu" hidden><button class="view-tab" data-owner-type="rh" data-owner-section="employees"><span class="menu-branch"></span>Empleados</button><button class="view-tab" data-owner-type="rh" data-owner-section="departments"><span class="menu-branch"></span>Departamentos</button><button class="view-tab" data-owner-type="rh" data-owner-section="positions"><span class="menu-branch"></span>Puestos</button></div></div>
+      <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="rhSubmenu" aria-expanded="false"><span><strong>Capital Humano</strong><small>Plantilla laboral</small></span><b>+</b></button><div class="view-submenu" id="rhSubmenu" hidden><button class="view-tab" data-owner-type="rh" data-owner-section="employees"><span class="menu-branch"></span>Perfil de empleado</button><button class="view-tab" data-owner-type="rh" data-owner-section="records"><span class="menu-branch"></span>Plantillas y expedientes</button><button class="view-tab" data-owner-type="rh" data-owner-section="departments"><span class="menu-branch"></span>Departamentos</button><button class="view-tab" data-owner-type="rh" data-owner-section="positions"><span class="menu-branch"></span>Puestos</button></div></div>
       <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="regionalSubmenu" aria-expanded="false"><span><strong>Configuración regional</strong><small>Sucursales y regiones</small></span><b>+</b></button><div class="view-submenu" id="regionalSubmenu" hidden><button class="view-tab" data-owner-type="regional"><span class="menu-branch"></span>Sucursales</button></div></div>
       <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="generalSubmenu" aria-expanded="false"><span><strong>Configuración general</strong><small>Productos y áreas generales</small></span><b>+</b></button><div class="view-submenu" id="generalSubmenu" hidden><button class="view-tab" data-owner-type="general"><span class="menu-branch"></span>Productos</button><button class="view-tab" data-owner-type="stock"><span class="menu-branch"></span>Control de Stock</button><button class="view-tab" data-owner-type="sales"><span class="menu-branch"></span>Ventas</button><button class="view-tab" data-owner-type="training"><span class="menu-branch"></span>Capacitación</button><button class="view-tab" data-owner-type="systems"><span class="menu-branch"></span>Sistemas</button></div></div>
     </nav>
@@ -130,12 +130,15 @@
       </section>
       <section id="administrativeConfig">
       <nav class="admin-tabs" aria-label="Capital Humano">
-        <button class="admin-tab active" data-admin-section="employees">Empleados</button>
+        <button class="admin-tab active" data-admin-section="employees">Perfil de empleado</button>
+        <button class="admin-tab" data-admin-section="records">Plantillas y expedientes</button>
         <button class="admin-tab" data-admin-section="departments">Departamentos</button>
         <button class="admin-tab" data-admin-section="positions">Puestos</button>
       </nav>
       <div class="admin-status" id="adminStatus">Cargando información administrativa…</div>
+      <div class="employee-profile-actions" id="employeeProfileActions"><div><strong>Perfil de empleado</strong><small>Alta y edición con los campos definidos de Capital Humano.</small></div><button class="button primary" id="inlineNewEmployeeBtn">+ Crear nuevo empleado</button></div>
       <div id="adminEmployees" class="admin-panel"></div>
+      <div id="adminRecords" class="admin-panel" hidden></div>
       <div id="adminDepartments" class="admin-panel" hidden></div>
       <div id="adminPositions" class="admin-panel" hidden></div>
       </section>
@@ -156,7 +159,7 @@
       <div class="dialog-heading"><div><p class="kicker">Plantilla de personal</p><h2 id="employeeDialogTitle">Nuevo empleado</h2></div><button class="icon-close" value="cancel" aria-label="Cerrar">×</button></div>
       <input type="hidden" id="employeeId">
       <div class="form-grid">
-        <label class="field"><span>Número de empleado *</span><input id="employeeNumber" required></label>
+        <label class="field"><span>Clave única del empleado *</span><input id="employeeNumber" required autocomplete="off" placeholder="Ej. ACT-001"></label>
         <label class="field"><span>Nombre(s) *</span><input id="employeeNames" required></label>
         <label class="field"><span>Apellido paterno</span><input id="employeeLastName"></label>
         <label class="field"><span>Apellido materno</span><input id="employeeSecondLastName"></label>
@@ -215,6 +218,6 @@
   <script src="src/bootstrap.js?v=1"></script>
   <script src="navigation.js?v=1"></script>
   <script src="home-map.js?v=1"></script>
-  <script src="app.js?v=36"></script>
+  <script src="app.js?v=37"></script>
 </body>
 </html>
