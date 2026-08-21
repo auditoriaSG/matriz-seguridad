@@ -11,11 +11,17 @@
   <link rel="stylesheet" href="admin-styles.css?v=19">
   <link rel="stylesheet" href="group-styles.css?v=15">
   <link rel="stylesheet" href="home-map.css?v=1">
+  <link rel="stylesheet" href="company-org.css?v=1">
+  <link rel="stylesheet" href="company-org-layout.css?v=1">
+  <link rel="stylesheet" href="auto-sidebar.css?v=1">
+  <link rel="stylesheet" href="sidebar-position.css?v=1">
+  <link rel="stylesheet" href="personal-dashboard.css?v=1">
+  <link rel="stylesheet" href="brand-home.css?v=1">
   <link rel="stylesheet" href="nexus-theme.css?v=12">
 </head>
 <body>
   <header class="topbar">
-    <div><h1>NEXUS <span class="brand-sk faux-italic">SK</span></h1></div>
+    <div><button class="brand-home" id="brandHome" type="button" aria-label="Regresar a la pantalla de bienvenida"><h1>NEXUS <span class="brand-sk faux-italic">SK</span></h1></button></div>
     <div class="header-actions">
       <span class="cloud-status" id="cloudStatus">Conectando…</span>
       <button class="button ghost compact" id="logoutBtn" hidden>Salir</button>
@@ -24,7 +30,7 @@
   <main>
     <nav class="view-switch" aria-label="Menú principal">
       <button class="sidebar-collapse" id="sidebarToggle" aria-label="Minimizar menú" aria-expanded="true">◀</button>
-      <button class="view-menu-root active" id="homeTab"><span>◆</span><div><strong>Menú principal</strong><small>Pantalla principal</small></div></button>
+      <button class="view-menu-root" id="homeTab"><span>◆</span><div><strong>Menú principal</strong><small>Mapa del sistema</small></div></button>
       <div class="view-menu-group">
         <button class="view-menu-title menu-toggle" data-submenu="securitySubmenu" aria-expanded="true"><span><strong>Seguridad</strong><small>Accesos y roles</small></span><b>−</b></button>
         <div class="view-submenu" id="securitySubmenu">
@@ -38,7 +44,7 @@
       <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="regionalSubmenu" aria-expanded="false"><span><strong>Configuración regional</strong><small>Sucursales y regiones</small></span><b>+</b></button><div class="view-submenu" id="regionalSubmenu" hidden><button class="view-tab" data-owner-type="regional"><span class="menu-branch"></span>Sucursales</button></div></div>
       <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="generalSubmenu" aria-expanded="false"><span><strong>Configuración general</strong><small>Productos y áreas generales</small></span><b>+</b></button><div class="view-submenu" id="generalSubmenu" hidden><button class="view-tab" data-owner-type="general"><span class="menu-branch"></span>Productos</button><button class="view-tab" data-owner-type="stock"><span class="menu-branch"></span>Control de Stock</button><button class="view-tab" data-owner-type="sales"><span class="menu-branch"></span>Ventas</button><button class="view-tab" data-owner-type="training"><span class="menu-branch"></span>Capacitación</button><button class="view-tab" data-owner-type="systems"><span class="menu-branch"></span>Sistemas</button></div></div>
     </nav>
-    <section id="homeView" class="home-view">
+    <section id="homeView" class="home-view" hidden>
       <div class="home-welcome"><p class="kicker">Panel principal</p><h2>Configuración administrativa</h2><p>Selecciona un área del menú vertical para consultar y administrar sus funciones.</p></div>
       <div class="inheritance-card home-inheritance"><div><p class="kicker">Regla de herencia</p><h3>Global → Nuevo León → Monterrey → Sucursal</h3><p>La sucursal utiliza primero su configuración particular. Cuando un dato no está definido, lo hereda de Monterrey, después de Nuevo León y finalmente del nivel global.</p></div><div class="inheritance-flow"><span>Global</span><b>→</b><span>Nuevo León</span><b>→</b><span>Monterrey</span><b>→</b><span>Sucursal</span></div></div>
       <section class="home-map-panel" aria-labelledby="homeMapTitle">
@@ -65,6 +71,28 @@
           </div>
         </div>
         <p class="home-map-help">Consejo: también puedes seleccionar un bloque y moverlo con las flechas del teclado.</p>
+      </section>
+    </section>
+    <section id="companyOrgView" class="company-org-view">
+      <section class="personal-dashboard" aria-label="Inicio personal">
+        <article class="welcome-widget"><p class="kicker">Bienvenida</p><h2 id="userWelcome">Hola</h2><p id="welcomeDate">Preparando tu espacio personal…</p></article>
+        <article class="clock-widget"><span>Hora local</span><strong id="digitalClock">--:--:--</strong><small>Monterrey, N.L.</small></article>
+        <article class="weather-widget"><div><span>Clima actual</span><strong id="weatherTemperature">--°</strong><small id="weatherDescription">Consultando Monterrey…</small></div><b id="weatherIcon" aria-hidden="true">☀</b></article>
+      </section>
+      <section class="notes-widget" aria-labelledby="personalNotesTitle">
+        <div class="notes-heading"><div><p class="kicker">Espacio personal</p><h2 id="personalNotesTitle">Mis notas</h2><p>Estas notas solamente aparecen en el perfil del usuario actual.</p></div><form id="personalNoteForm"><input id="personalNoteInput" maxlength="220" required placeholder="Escribe una nota o recordatorio…"><button class="button primary" type="submit">+ Agregar nota</button></form></div>
+        <div class="postit-board" id="personalNotes"></div>
+      </section>
+      <section class="company-org-panel" aria-labelledby="companyOrgTitle">
+        <div class="home-map-heading"><div><p class="kicker">Empresa</p><h2 id="companyOrgTitle">Organigrama general</h2><p>Este esquema es independiente del mapa funcional del sistema.</p></div></div>
+        <div class="company-org-chart">
+          <div class="org-box org-director">Dirección General<small>Gobierno y estrategia</small></div>
+          <div class="org-level org-departments">
+            <div class="org-box">Capital Humano<small>Plantilla y expedientes</small></div><div class="org-box">Operaciones<small>Centros y procesos</small></div><div class="org-box">Ventas<small>Servicios y precios</small></div><div class="org-box">Marketing<small>Campañas</small></div><div class="org-box">Sistemas<small>Seguridad y soporte</small></div><div class="org-box">Capacitación<small>Protocolos e insumos</small></div><div class="org-box">Almacén Central<small>Inventario y distribución</small></div><div class="org-box">Auditoría<small>Control y cumplimiento</small></div>
+          </div>
+          <div class="org-box org-regional">Coordinación regional<small>Nuevo León · Coahuila · Baja California · Ciudad de México · Sinaloa</small></div>
+          <div class="org-level org-roles"><div class="org-box">Encargadas</div><div class="org-box">Médicos</div><div class="org-box">Terapeutas</div><div class="org-box">Ejecutivas</div><div class="org-box">Recepción</div></div>
+        </div>
       </section>
     </section>
     <div id="permissionsView" hidden>
@@ -223,8 +251,8 @@
   <script src="src/adapters/browser-storage-adapter.js?v=1"></script>
   <script src="src/adapters/local-preview-adapter.js?v=1"></script>
   <script src="src/bootstrap.js?v=1"></script>
-  <script src="navigation.js?v=1"></script>
+  <script src="navigation.js?v=3"></script>
   <script src="home-map.js?v=1"></script>
-  <script src="app.js?v=53"></script>
+  <script src="app.js?v=58"></script>
 </body>
 </html>
