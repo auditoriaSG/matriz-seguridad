@@ -13,7 +13,7 @@
           const {data,error}=await client.auth.signInWithPassword({email,password});
           return {user:data?.user||null,error:error||null};
         },
-        signOut:()=>client.auth.signOut()
+        signOut:()=>client.auth.signOut({scope:'local'})
       }),
       matrix:Object.freeze({
         load:()=>client.from('matriz_seguridad').select('datos,actualizado_en').eq('id','principal').single(),
