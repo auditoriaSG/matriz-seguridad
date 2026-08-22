@@ -272,12 +272,12 @@
     </form>
   </dialog>
   <section class="login-overlay" id="loginOverlay" aria-label="Acceso a la matriz">
-    <form class="login-card" id="loginForm">
+    <form class="login-card" id="loginForm" autocomplete="off">
       <p class="kicker">Base de datos compartida</p>
       <h2>Entrar a la matriz</h2>
       <p>Usa el correo y la contraseña que fueron registrados en Supabase.</p>
       <label class="field"><span>Correo</span><input id="loginEmail" type="email" autocomplete="username" required></label>
-      <label class="field"><span>Contraseña</span><input id="loginPassword" type="password" autocomplete="current-password" required></label>
+      <label class="field"><span>Contraseña</span><input id="loginPassword" type="password" autocomplete="new-password" data-lpignore="true" data-1p-ignore required readonly></label>
       <button class="button primary login-button" id="loginBtn" type="submit">Entrar</button>
       <p class="login-message" id="loginMessage" role="status"></p>
     </form>
@@ -301,6 +301,6 @@
   <script src="src/bootstrap.js?v=1"></script>
   <script src="navigation.js?v=4"></script>
   <script src="home-map.js?v=3"></script>
-  <script src="app.js?v=91"></script>
+  <script src="app.js?v=92"></script>
 </body>
 </html>

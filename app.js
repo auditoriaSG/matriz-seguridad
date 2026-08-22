@@ -152,7 +152,13 @@ async function initCloud(){
   const {user}=await appCore.auth.restoreSession();
   if(user)await connectCloud(user);else{$('#loginOverlay').hidden=false;setCloudStatus('Inicia sesión')}
 }
-$('#loginForm').onsubmit=async e=>{e.preventDefault();const button=$('#loginBtn');button.disabled=true;button.textContent='Entrando…';$('#loginMessage').textContent='';const {user,error}=await appCore.auth.signIn($('#loginEmail').value.trim(),$('#loginPassword').value);button.disabled=false;button.textContent='Entrar';if(error){$('#loginMessage').textContent='No pudimos entrar. Revisa el correo y la contraseña.';return}$('#loginPassword').value='';await connectCloud(user)};
+const loginPassword=$('#loginPassword');
+function clearLoginPassword(){loginPassword.value=''}
+clearLoginPassword();
+loginPassword.addEventListener('pointerdown',()=>{loginPassword.readOnly=false;clearLoginPassword()});
+loginPassword.addEventListener('focus',()=>{loginPassword.readOnly=false;clearLoginPassword()});
+window.addEventListener('pageshow',()=>{loginPassword.readOnly=true;clearLoginPassword();setTimeout(clearLoginPassword,300)});
+$('#loginForm').onsubmit=async e=>{e.preventDefault();const button=$('#loginBtn');button.disabled=true;button.textContent='Entrando…';$('#loginMessage').textContent='';const {user,error}=await appCore.auth.signIn($('#loginEmail').value.trim(),loginPassword.value);button.disabled=false;button.textContent='Entrar';if(error){clearLoginPassword();$('#loginMessage').textContent='No pudimos entrar. Revisa el correo y la contraseña.';return}clearLoginPassword();await connectCloud(user)};
 $('#uploadFirstBtn').onclick=async()=>{cloudReady=true;$('#firstSyncOverlay').hidden=true;const ok=await saveToCloud(false);if(!ok){cloudReady=false;$('#firstSyncOverlay').hidden=false}};
 $('#syncLaterBtn').onclick=()=>{$('#firstSyncOverlay').hidden=true;setCloudStatus('Nube pendiente','error');toast('El avance continúa guardado solo en este dispositivo')};
 $('#logoutBtn').onclick=async()=>{const button=$('#logoutBtn');button.disabled=true;button.textContent='Saliendo…';const {error}=await appCore.auth.signOut();if(error){button.disabled=false;button.textContent='Salir';toast('No se pudo cerrar la sesión. Inténtalo nuevamente.');return}cloudReady=false;activeUser=null;button.hidden=true;$('#loginOverlay').hidden=false;setCloudStatus('Sesión cerrada');window.location.replace(`${window.location.pathname}?sesion=cerrada`)};
