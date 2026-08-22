@@ -138,8 +138,21 @@ $('#exportMatrixPdf').onclick=()=>{const previousTitle=document.title;document.t
 $('#matrixGrid').addEventListener('click',e=>{const global=e.target.closest('[data-global-scope]');if(global){runProtectedProfileChange(()=>{const profile=global.dataset.profile,val=global.dataset.v,scope=global.dataset.globalScope,key=global.dataset.globalKey;const targets=permissions.filter(p=>!p.deprecated&&(scope==='title'?permissionTitle(p)===key:`${permissionTitle(p)}||${permissionSubtitle(p)}`===key));targets.forEach(p=>state.values[`${profile}|${p.id}`]=val);save();renderMatrix();toast(`${targets.length} permisos actualizados para ${profile}`)});return}const cell=e.target.closest('[data-matrix-id]');if(!cell)return;runProtectedProfileChange(()=>{state.values[`${cell.dataset.profile}|${cell.dataset.matrixId}`]=cell.dataset.matrixV;save();renderMatrix();toast(cell.dataset.matrixV==='allow'?'Marcado: Aplica':'Marcado: Sin acceso')})});
 function bulk(v){const list=filtered().filter(p=>!blocked(p));if(!list.length)return;runProtectedProfileChange(()=>{list.forEach(p=>state.values[`${currentProfile}|${p.id}`]=v);save();render();toast(`${list.length} permisos actualizados`)})}$('#allAllow').onclick=()=>bulk('allow');$('#allDeny').onclick=()=>bulk('deny');
 
+const INACTIVITY_LIMIT_MS=5*60*1000;
+let inactivityDeadline=0,inactivityTimer=null,logoutInProgress=false;
+function scheduleInactivityCheck(){clearTimeout(inactivityTimer);if(!activeUser)return;const remaining=Math.max(0,inactivityDeadline-Date.now());inactivityTimer=setTimeout(()=>{if(Date.now()>=inactivityDeadline)logoutAndReturn('inactividad');else scheduleInactivityCheck()},remaining)}
+function registerActivity(){if(!activeUser)return;inactivityDeadline=Date.now()+INACTIVITY_LIMIT_MS}
+async function logoutAndReturn(reason='cerrada'){
+  if(logoutInProgress)return;logoutInProgress=true;clearTimeout(inactivityTimer);
+  const button=$('#logoutBtn');button.disabled=true;button.textContent='Saliendo…';
+  const {error}=await appCore.auth.signOut();
+  if(error){logoutInProgress=false;button.disabled=false;button.textContent='Salir';scheduleInactivityCheck();toast('No se pudo cerrar la sesión. Inténtalo nuevamente.');return}
+  cloudReady=false;activeUser=null;button.hidden=true;$('#loginOverlay').hidden=false;setCloudStatus(reason==='inactividad'?'Sesión cerrada por inactividad':'Sesión cerrada');window.location.replace(`${window.location.pathname}?sesion=${reason}`)
+}
+['pointermove','pointerdown','keydown','touchstart','scroll'].forEach(eventName=>window.addEventListener(eventName,registerActivity,{passive:true}));
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&activeUser){if(Date.now()>=inactivityDeadline)logoutAndReturn('inactividad');else registerActivity()}});
 async function connectCloud(user){
-  activeUser=user;renderPersonalDashboard();$('#loginOverlay').hidden=true;$('#logoutBtn').hidden=false;setCloudStatus('Cargando nube…');
+  activeUser=user;inactivityDeadline=Date.now()+INACTIVITY_LIMIT_MS;scheduleInactivityCheck();renderPersonalDashboard();$('#loginOverlay').hidden=true;$('#logoutBtn').hidden=false;setCloudStatus('Cargando nube…');
   const {data,error}=await appCore.matrix.loadCloud();
   if(error){setCloudStatus('Error de conexión','error');toast('No se pudo cargar la base de datos');return}
   if(!appCore.matrix.hasCloudData(data.datos)){$('#firstSyncOverlay').hidden=false;setCloudStatus('Primera sincronización pendiente');return}
@@ -150,7 +163,7 @@ async function connectCloud(user){
 async function initCloud(){
   if(!appCore){setCloudStatus('Conexión no disponible','error');$('#loginMessage').textContent='No se pudo cargar la conexión segura.';return}
   const {user}=await appCore.auth.restoreSession();
-  if(user)await connectCloud(user);else{$('#loginOverlay').hidden=false;setCloudStatus('Inicia sesión')}
+  if(user)await connectCloud(user);else{$('#loginOverlay').hidden=false;setCloudStatus('Inicia sesión');if(new URLSearchParams(window.location.search).get('sesion')==='inactividad')$('#loginMessage').textContent='La sesión se cerró después de 5 minutos sin actividad.'}
 }
 const loginPassword=$('#loginPassword');
 function clearLoginPassword(){loginPassword.value=''}
@@ -161,7 +174,7 @@ window.addEventListener('pageshow',()=>{loginPassword.readOnly=true;clearLoginPa
 $('#loginForm').onsubmit=async e=>{e.preventDefault();const button=$('#loginBtn');button.disabled=true;button.textContent='Entrando…';$('#loginMessage').textContent='';const {user,error}=await appCore.auth.signIn($('#loginEmail').value.trim(),loginPassword.value);button.disabled=false;button.textContent='Entrar';if(error){clearLoginPassword();$('#loginMessage').textContent='No pudimos entrar. Revisa el correo y la contraseña.';return}clearLoginPassword();await connectCloud(user)};
 $('#uploadFirstBtn').onclick=async()=>{cloudReady=true;$('#firstSyncOverlay').hidden=true;const ok=await saveToCloud(false);if(!ok){cloudReady=false;$('#firstSyncOverlay').hidden=false}};
 $('#syncLaterBtn').onclick=()=>{$('#firstSyncOverlay').hidden=true;setCloudStatus('Nube pendiente','error');toast('El avance continúa guardado solo en este dispositivo')};
-$('#logoutBtn').onclick=async()=>{const button=$('#logoutBtn');button.disabled=true;button.textContent='Saliendo…';const {error}=await appCore.auth.signOut();if(error){button.disabled=false;button.textContent='Salir';toast('No se pudo cerrar la sesión. Inténtalo nuevamente.');return}cloudReady=false;activeUser=null;button.hidden=true;$('#loginOverlay').hidden=false;setCloudStatus('Sesión cerrada');window.location.replace(`${window.location.pathname}?sesion=cerrada`)};
+$('#logoutBtn').onclick=()=>logoutAndReturn('cerrada');
 let adminData={departamentos:[],puestos:[],perfiles:[],sucursales:[],empleados:[]},adminLoaded=false,adminSection='employees',configType='rh';
 let employeeFilters={search:'',department:'',branch:'',status:''},employeeSearchRefreshTimer=null;
 const safe=s=>esc(String(s??''));
