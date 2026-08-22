@@ -22,8 +22,18 @@
       admin:Object.freeze({
         loadSummary:()=>client.rpc('admin_resumen'),
         loadEmployeeDetails:()=>client.rpc('admin_plantilla_detalle'),
+        loadRegional:()=>client.rpc('nexus_resumen_regional'),
+        loadGeneral:()=>client.rpc('nexus_resumen_configuracion_general'),
         saveEmployee:command=>client.rpc('admin_guardar_empleado',command),
+        setEmployeePin:(employeeId,pin)=>client.rpc('admin_establecer_pin_empleado',{p_empleado_id:employeeId,p_pin:pin}),
+        verifyPin:pin=>client.rpc('seguridad_verificar_pin',{p_pin:pin}),
         saveCatalog:(type,command)=>client.rpc(type==='department'?'admin_guardar_departamento':'admin_guardar_puesto',command)
+      }),
+      access:Object.freeze({
+        load:()=>client.rpc('nexus_panel_acceso'),
+        saveProfile:command=>client.rpc('nexus_guardar_perfil',command),
+        saveDecision:command=>client.rpc('nexus_guardar_decision',command),
+        saveUser:command=>client.rpc('nexus_guardar_usuario',command)
       })
     });
   }

@@ -18,10 +18,8 @@
 
   function init(actions){
     document.querySelector('#homeTab').onclick=()=>actions.openMainView('home');
-    document.querySelector('#permissionsTab').onclick=()=>actions.openMainView('permissions');
-    document.querySelector('#groupsTab').onclick=()=>actions.openMainView('groups');
-    document.querySelector('#matrixTab').onclick=()=>actions.openMainView('matrix');
-    document.querySelector('#securityUsersTab').onclick=e=>actions.openOwnedArea('security','',e.currentTarget);
+    document.querySelector('#shortcutsTab').onclick=()=>actions.openMainView('permissions');
+    document.querySelector('#nexusAccessTab').onclick=()=>actions.openMainView('nexus-access');
 
     document.querySelector('.view-switch').addEventListener('click',event=>{
       const toggle=event.target.closest('[data-submenu]');

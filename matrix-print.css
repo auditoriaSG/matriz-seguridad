@@ -1,0 +1,28 @@
+.matrix-actions{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;justify-content:flex-end}
+#exportMatrixPdf{min-height:46px;padding:0 20px;white-space:nowrap}
+
+@media print{
+  @page{size:A3 landscape;margin:8mm}
+  body.printing-matrix{background:#fff!important}
+  body.printing-matrix>*{display:none!important}
+  body.printing-matrix main{display:block!important;margin:0!important;padding:0!important;width:100%!important;max-width:none!important}
+  body.printing-matrix main>*{display:none!important}
+  body.printing-matrix #matrixView{display:block!important;position:static!important;width:100%!important;margin:0!important;padding:0!important;box-shadow:none!important;background:#fff!important;color:#111!important}
+  body.printing-matrix #matrixView[hidden]{display:block!important}
+  body.printing-matrix .matrix-hero{display:block!important;margin:0 0 6mm!important;padding:0!important;background:#fff!important;color:#111!important}
+  body.printing-matrix .matrix-hero h2{font-size:22pt!important;color:#111!important}
+  body.printing-matrix .matrix-hero p{color:#333!important}
+  body.printing-matrix .matrix-actions,
+  body.printing-matrix .matrix-legend{display:none!important}
+  body.printing-matrix .matrix-scroll{display:block!important;overflow:visible!important;width:100%!important;max-height:none!important}
+  body.printing-matrix .matrix-table{display:block!important;width:100%!important;min-width:0!important}
+  body.printing-matrix .matrix-row{display:grid!important;grid-template-columns:1.35fr 2fr repeat(7,.72fr)!important;break-inside:avoid;page-break-inside:avoid;font-size:7.5pt!important}
+  body.printing-matrix .matrix-row>div{min-width:0!important;padding:4px!important;color:#111!important;border-color:#aaa!important;background:#fff!important}
+  body.printing-matrix .matrix-head>div,
+  body.printing-matrix .title-row>div{background:#e8eef5!important;font-weight:700!important}
+  body.printing-matrix .subtitle-row>div{background:#f3f5f7!important}
+  body.printing-matrix .matrix-global{display:none!important}
+  body.printing-matrix .matrix-option{width:22px!important;height:22px!important;min-width:22px!important;padding:0!important;border:1px solid #999!important;color:#555!important;background:#fff!important}
+  body.printing-matrix .matrix-option.selected.allow{background:#d9f4e5!important;color:#176b43!important;font-weight:800!important}
+  body.printing-matrix .matrix-option.selected.deny{background:#fde1e5!important;color:#9d2638!important;font-weight:800!important}
+}

@@ -1,6 +1,6 @@
 (function(global){
   function createApplication(ports,domain){
-    if(!ports?.auth||!ports?.matrix||!ports?.admin||!ports?.localState)throw new Error('Faltan puertos para iniciar la aplicación');
+    if(!ports?.auth||!ports?.matrix||!ports?.admin||!ports?.access||!ports?.localState)throw new Error('Faltan puertos para iniciar la aplicación');
 
     return Object.freeze({
       auth:Object.freeze({
@@ -17,12 +17,23 @@
       }),
       admin:Object.freeze({
         async load(){
-          const [summaryResult,detailResult]=await Promise.all([ports.admin.loadSummary(),ports.admin.loadEmployeeDetails()]);
+          const [summaryResult,detailResult,regionalResult,generalResult]=await Promise.all([ports.admin.loadSummary(),ports.admin.loadEmployeeDetails(),ports.admin.loadRegional(),ports.admin.loadGeneral()]);
           if(summaryResult.error)return {data:null,error:summaryResult.error};
-          return {data:domain.mergeAdministrativeData(summaryResult.data,detailResult.data),error:detailResult.error||null};
+          const data=domain.mergeAdministrativeData(summaryResult.data,detailResult.data);
+          if(regionalResult.data)Object.assign(data,regionalResult.data);
+          data.configuracion_general=generalResult.data||{};
+          return {data,error:detailResult.error||regionalResult.error||generalResult.error||null};
         },
         saveEmployee:command=>ports.admin.saveEmployee(command),
+        setEmployeePin:(employeeId,pin)=>ports.admin.setEmployeePin(employeeId,pin),
+        verifyPin:pin=>ports.admin.verifyPin(pin),
         saveCatalog:(type,command)=>ports.admin.saveCatalog(type,command)
+      }),
+      access:Object.freeze({
+        load:()=>ports.access.load(),
+        saveProfile:command=>ports.access.saveProfile(command),
+        saveDecision:command=>ports.access.saveDecision(command),
+        saveUser:command=>ports.access.saveUser(command)
       })
     });
   }

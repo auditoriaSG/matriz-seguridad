@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Comparación de colores Nexus SK</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif}.page{min-height:100vh;background:var(--bg);color:var(--text)}
+.header{height:160px;padding:34px 64px;display:flex;align-items:center;justify-content:space-between;background:var(--header);border-bottom:10px solid var(--accent)}
+.brand{font:700 72px/.9 Didot,"Bodoni MT","Times New Roman",serif;color:var(--brand);letter-spacing:.025em}.status{font-weight:800;color:var(--headerText)}
+.layout{display:grid;grid-template-columns:250px 1fr;gap:28px;padding:32px 48px}.sidebar{background:var(--side);border:1px solid var(--line);border-radius:20px;padding:22px;min-height:650px}.sidebar h3{margin:0 0 8px;font:600 25px Georgia,serif}.sidebar p{margin:0 0 25px;color:var(--muted)}.nav{padding:14px;border-radius:12px;margin:9px 0;font-weight:800}.nav.active{background:var(--button);color:var(--buttonText)}
+.content{display:grid;gap:22px}.hero,.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:0 12px 30px #173d3414}.hero{background:linear-gradient(135deg,var(--card) 58%,var(--side))}.kicker{font-size:12px;font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:var(--button)}h1{font:600 40px Georgia,serif;margin:6px 0;color:var(--heading)}p{color:var(--muted)}.filters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}.field{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px;color:var(--muted)}.rows{display:grid;gap:10px;margin-top:20px}.row{display:grid;grid-template-columns:1.5fr 1fr 1fr;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}.row strong{color:var(--heading)}
+.original{--bg:#f6f4ee;--header:#173d34;--accent:#26705d;--brand:#fff;--headerText:#fff;--side:#e7ebe8;--card:#fff;--line:#dce4e0;--text:#16231f;--heading:#173d34;--muted:#697773;--button:#173d34;--buttonText:#fff}
+.gold{--bg:#f6f4ee;--header:#DEC799;--accent:#c4a969;--brand:#000;--headerText:#000;--side:#eee7d8;--card:#fff;--line:#dacdad;--text:#171717;--heading:#111;--muted:#6c6659;--button:#3f3a2d;--buttonText:#fff}
+.navy{--bg:#fff0dc;--header:#1f527a;--accent:#dceef8;--brand:#fff0dc;--headerText:#fff0dc;--side:#dceef8;--card:#fffaf2;--line:#bad8e8;--text:#123f62;--heading:#1f527a;--muted:#5d7182;--button:#1f527a;--buttonText:#fff0dc}
+.cream{--bg:#fff0dc;--header:#fff0dc;--accent:#1f527a;--brand:#073f6c;--headerText:#1f527a;--side:#dceef8;--card:#fffaf2;--line:#bad8e8;--text:#123f62;--heading:#1f527a;--muted:#5d7182;--button:#1f527a;--buttonText:#fff0dc}.cream .brand{-webkit-text-stroke:2px #8dbbd5;text-shadow:0 3px #cfe5f1}
+.label{position:fixed;right:24px;bottom:22px;background:var(--button);color:var(--buttonText);padding:12px 18px;border-radius:99px;font-weight:900}
+@media(max-width:800px){.header{padding:25px;height:125px}.brand{font-size:50px}.layout{grid-template-columns:1fr;padding:20px}.sidebar{min-height:auto}.filters{grid-template-columns:1fr}}
+</style>
+</head>
+<body><div class="page" id="page">
+  <header class="header"><div class="brand">NEXUS SK</div><div class="status">Guardado en la nube</div></header>
+  <main class="layout"><aside class="sidebar"><h3>Menú principal</h3><p>Configuración administrativa</p><div class="nav active">Seguridad</div><div class="nav">Capital Humano</div><div class="nav">Configuración regional</div><div class="nav">Configuración general</div></aside>
+  <section class="content"><div class="hero"><div class="kicker">Panel principal</div><h1>Configuración administrativa</h1><p>Administra empleados, perfiles de seguridad y configuraciones del sistema.</p></div><div class="panel"><div class="kicker">Plantilla laboral</div><h1>Empleados</h1><div class="filters"><div class="field">Buscar empleado</div><div class="field">Departamento</div><div class="field">Sucursal</div></div><div class="rows"><div class="row"><strong>Nombre del empleado</strong><span>Operaciones</span><span>Sucursal</span></div><div class="row"><strong>Nombre del empleado</strong><span>Capital Humano</span><span>Oficina</span></div><div class="row"><strong>Nombre del empleado</strong><span>Sistemas</span><span>Oficina</span></div></div></div></section></main>
+  <div class="label" id="label"></div></div>
+<script>const themes={original:'Versión 1 · Verde original',gold:'Versión 2 · Dorado #DEC799',navy:'Versión 3 · Azul marino y crema',cream:'Versión 4 · Crema y azul delineado'};const theme=new URLSearchParams(location.search).get('theme')||'navy';document.getElementById('page').classList.add(theme);document.getElementById('label').textContent=themes[theme];</script>
+</body></html>

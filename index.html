@@ -8,9 +8,9 @@
   <link rel="stylesheet" href="styles.css?v=21">
   <link rel="stylesheet" href="matrix-styles.css?v=5">
   <link rel="stylesheet" href="matrix-options.css?v=5">
-  <link rel="stylesheet" href="admin-styles.css?v=19">
+  <link rel="stylesheet" href="admin-styles.css?v=24">
   <link rel="stylesheet" href="group-styles.css?v=15">
-  <link rel="stylesheet" href="home-map.css?v=1">
+  <link rel="stylesheet" href="home-map.css?v=3">
   <link rel="stylesheet" href="company-org.css?v=1">
   <link rel="stylesheet" href="company-org-layout.css?v=1">
   <link rel="stylesheet" href="auto-sidebar.css?v=1">
@@ -18,6 +18,12 @@
   <link rel="stylesheet" href="personal-dashboard.css?v=1">
   <link rel="stylesheet" href="brand-home.css?v=1">
   <link rel="stylesheet" href="nexus-theme.css?v=12">
+  <link rel="stylesheet" href="matrix-print.css?v=1">
+  <link rel="stylesheet" href="nexus-access.css?v=2">
+  <link rel="stylesheet" href="capital-human-fix.css?v=1">
+  <link rel="stylesheet" href="regional-database.css?v=1">
+  <link rel="stylesheet" href="general-database.css?v=1">
+  <link rel="stylesheet" href="shortcuts-documentation.css?v=1">
 </head>
 <body>
   <header class="topbar">
@@ -30,14 +36,17 @@
   <main>
     <nav class="view-switch" aria-label="Menú principal">
       <button class="sidebar-collapse" id="sidebarToggle" aria-label="Minimizar menú" aria-expanded="true">◀</button>
-      <button class="view-menu-root" id="homeTab"><span>◆</span><div><strong>Menú principal</strong><small>Mapa del sistema</small></div></button>
+      <button class="view-menu-root" id="homeTab"><span>◆</span><div><strong>Configuración administrativa</strong><small>Mapa del sistema</small></div></button>
       <div class="view-menu-group">
-        <button class="view-menu-title menu-toggle" data-submenu="securitySubmenu" aria-expanded="true"><span><strong>Seguridad</strong><small>Accesos y roles</small></span><b>−</b></button>
+        <button class="view-menu-title menu-toggle" data-submenu="securitySubmenu" aria-expanded="true"><span><strong>Seguridad de Nexus SK</strong><small>Perfiles y políticas reales</small></span><b>−</b></button>
         <div class="view-submenu" id="securitySubmenu">
-          <button class="view-tab" id="permissionsTab"><span class="menu-branch"></span>Permisos por perfil</button>
-          <button class="view-tab" id="matrixTab"><span class="menu-branch"></span>Matriz general</button>
-          <button class="view-tab" id="groupsTab"><span class="menu-branch"></span>Grupos de empleados</button>
-          <button class="view-tab" id="securityUsersTab"><span class="menu-branch"></span>Usuarios y permisos</button>
+          <button class="view-tab nexus-security-tab" id="nexusAccessTab"><span class="menu-branch"></span>Panel de perfiles y políticas</button>
+        </div>
+      </div>
+      <div class="view-menu-group">
+        <button class="view-menu-title menu-toggle" data-submenu="integrationsSubmenu" aria-expanded="false"><span><strong>Integraciones</strong><small>Conexión con sistemas externos</small></span><b>+</b></button>
+        <div class="view-submenu" id="integrationsSubmenu" hidden>
+          <button class="view-tab shortcuts-menu-tab" id="shortcutsTab"><span class="menu-branch"></span><span><strong>Shortcuts</strong><small>Documentación e intercambio</small></span></button>
         </div>
       </div>
       <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="rhSubmenu" aria-expanded="false"><span><strong>Capital Humano</strong><small>Plantilla laboral</small></span><b>+</b></button><div class="view-submenu" id="rhSubmenu" hidden><button class="view-tab" data-owner-type="rh" data-owner-section="employees"><span class="menu-branch"></span>Perfil de empleado</button><button class="view-tab" data-owner-type="rh" data-owner-section="records"><span class="menu-branch"></span>Plantillas y expedientes</button><button class="view-tab" data-owner-type="rh" data-owner-section="departments"><span class="menu-branch"></span>Departamentos</button><button class="view-tab" data-owner-type="rh" data-owner-section="positions"><span class="menu-branch"></span>Puestos</button></div></div>
@@ -45,7 +54,6 @@
       <div class="view-menu-group"><button class="view-menu-title menu-toggle" data-submenu="generalSubmenu" aria-expanded="false"><span><strong>Configuración general</strong><small>Productos y áreas generales</small></span><b>+</b></button><div class="view-submenu" id="generalSubmenu" hidden><button class="view-tab" data-owner-type="general"><span class="menu-branch"></span>Productos</button><button class="view-tab" data-owner-type="stock"><span class="menu-branch"></span>Control de Stock</button><button class="view-tab" data-owner-type="sales"><span class="menu-branch"></span>Ventas</button><button class="view-tab" data-owner-type="training"><span class="menu-branch"></span>Capacitación</button><button class="view-tab" data-owner-type="systems"><span class="menu-branch"></span>Sistemas</button></div></div>
     </nav>
     <section id="homeView" class="home-view" hidden>
-      <div class="home-welcome"><p class="kicker">Panel principal</p><h2>Configuración administrativa</h2><p>Selecciona un área del menú vertical para consultar y administrar sus funciones.</p></div>
       <div class="inheritance-card home-inheritance"><div><p class="kicker">Regla de herencia</p><h3>Global → Nuevo León → Monterrey → Sucursal</h3><p>La sucursal utiliza primero su configuración particular. Cuando un dato no está definido, lo hereda de Monterrey, después de Nuevo León y finalmente del nivel global.</p></div><div class="inheritance-flow"><span>Global</span><b>→</b><span>Nuevo León</span><b>→</b><span>Monterrey</span><b>→</b><span>Sucursal</span></div></div>
       <section class="home-map-panel" aria-labelledby="homeMapTitle">
         <div class="home-map-heading"><div><p class="kicker">Mapa funcional</p><h2 id="homeMapTitle">Estructura visual de SKINKLINIK</h2><p>Arrastra cualquier bloque con el mouse, el dedo o el Apple Pencil.</p></div><button class="button small" id="resetHomeMap">Restablecer acomodo</button></div>
@@ -96,6 +104,8 @@
       </section>
     </section>
     <div id="permissionsView" hidden>
+    <nav class="shortcuts-section-tabs" aria-label="Apartados informativos de Shortcuts"><button class="active" data-shortcuts-view="permissions">Permisos por perfil</button><button data-shortcuts-view="matrix">Matriz general</button><button data-shortcuts-view="groups">Grupos de empleados</button><button data-shortcuts-view="users">Empleados y perfiles</button></nav>
+    <div class="security-scope-banner informative"><strong>Integración Shortcuts · Consulta informativa</strong><span>Esta pantalla documenta permisos del sistema externo. No modifica accesos de Nexus SK.</span></div>
     <section class="summary" aria-label="Resumen">
       <div class="summary-copy"><p class="kicker">Avance del perfil</p><h2 id="profileTitle">Control de Stock</h2><p id="progressText">0 de 0 permisos definidos</p></div>
       <div class="progress-wrap"><div class="progress-ring" id="progressRing"><strong id="progressPct">0%</strong></div><span id="saveStatus">Guardado en este dispositivo</span></div>
@@ -120,6 +130,8 @@
     </div>
 
     <section id="groupsView" hidden>
+      <nav class="shortcuts-section-tabs" aria-label="Apartados informativos de Shortcuts"><button data-shortcuts-view="permissions">Permisos por perfil</button><button data-shortcuts-view="matrix">Matriz general</button><button class="active" data-shortcuts-view="groups">Grupos de empleados</button><button data-shortcuts-view="users">Empleados y perfiles</button></nav>
+      <div class="security-scope-banner informative"><strong>Integración Shortcuts · Consulta informativa</strong><span>Estos grupos representan la configuración documentada de Shortcuts y no conceden acceso a Nexus SK.</span></div>
       <div class="groups-hero">
         <div><p class="kicker">Organización del personal</p><h2>Grupos de empleados</h2><p>Asigna el perfil de seguridad que recibirá cada grupo de manera predeterminada.</p></div>
         <div class="group-progress"><strong id="groupsAssigned">0 de 15</strong><span>grupos configurados</span></div>
@@ -129,12 +141,29 @@
     </section>
 
     <section id="matrixView" hidden>
+      <nav class="shortcuts-section-tabs" aria-label="Apartados informativos de Shortcuts"><button data-shortcuts-view="permissions">Permisos por perfil</button><button class="active" data-shortcuts-view="matrix">Matriz general</button><button data-shortcuts-view="groups">Grupos de empleados</button><button data-shortcuts-view="users">Empleados y perfiles</button></nav>
+      <div class="security-scope-banner informative"><strong>Integración Shortcuts · Consulta informativa</strong><span>Esta matriz pertenece al sistema externo Shortcuts. Sus cambios no controlan la base de datos de Nexus SK.</span></div>
       <div class="matrix-hero">
         <div><p class="kicker">Vista comparativa</p><h2>Matriz general de perfiles</h2><p>Compara y asigna permisos individuales o aplica una selección global por título y subtítulo.</p></div>
-        <label class="field matrix-search"><span>Buscar</span><input id="matrixSearch" type="search" placeholder="Buscar permiso o subtítulo…"></label>
+        <div class="matrix-actions"><button class="secondary" id="exportMatrixPdf" type="button">Exportar PDF</button><label class="field matrix-search"><span>Buscar</span><input id="matrixSearch" type="search" placeholder="Buscar permiso o subtítulo…"></label></div>
       </div>
       <div class="matrix-legend"><span><b class="legend-dot allow-dot">A</b> Aplica</span><span><b class="legend-dot deny-dot">N</b> Sin acceso</span><span>Selecciona una de las dos opciones en cada permiso.</span></div>
       <div class="matrix-scroll"><div class="matrix-table" id="matrixGrid"></div></div>
+    </section>
+
+    <section id="nexusAccessView" class="nexus-access-view" hidden>
+      <div class="security-scope-banner operational"><strong>Nexus SK · Seguridad activa</strong><span>Los cambios realizados aquí sí controlan el acceso real de los usuarios a esta aplicación.</span></div>
+      <nav class="shortcuts-section-tabs nexus-panel-tabs" aria-label="Panel de seguridad de Nexus"><button class="active" data-nexus-panel="profiles">Perfiles y políticas</button><button data-nexus-panel="users">Usuarios y niveles</button></nav>
+      <section id="nexusProfilesPanel">
+        <div class="matrix-hero"><div><p class="kicker">Seguridad real de Nexus SK</p><h2>Perfiles y políticas de acceso</h2><p>Esta matriz controla lo que cada usuario puede consultar o administrar dentro de Nexus SK. Es independiente de los permisos informativos de Shortcuts.</p></div><button class="button primary" id="newNexusProfile">+ Nuevo perfil</button></div>
+        <div class="nexus-access-note"><strong>Regla segura:</strong> todo perfil nuevo inicia con todas las políticas en <b>Sin acceso</b>.</div>
+      </section>
+      <section id="nexusUsersPanel" hidden>
+        <div class="matrix-hero"><div><p class="kicker">Administración de usuarios</p><h2>Usuarios y niveles de seguridad</h2><p>Da de alta el acceso de una persona y asígnale uno de los perfiles definidos para Nexus SK.</p></div><button class="button primary" id="newNexusUser">+ Dar de alta usuario</button></div>
+        <div id="nexusUsersGrid" class="nexus-users-grid"></div>
+      </section>
+      <div id="nexusAccessStatus" class="admin-status">Abre este apartado para cargar la configuración.</div>
+      <div class="nexus-access-scroll"><div id="nexusAccessGrid" class="nexus-access-grid"></div></div>
     </section>
 
     <section id="adminView" hidden>
@@ -171,7 +200,7 @@
       <div id="adminDepartments" class="admin-panel" hidden></div>
       <div id="adminPositions" class="admin-panel" hidden></div>
       </section>
-      <section id="securityConfig" class="config-section" hidden><div id="adminProfiles" class="admin-panel"></div></section>
+      <section id="securityConfig" class="config-section" hidden><nav class="shortcuts-section-tabs" aria-label="Apartados informativos de Shortcuts"><button data-shortcuts-view="permissions">Permisos por perfil</button><button data-shortcuts-view="matrix">Matriz general</button><button data-shortcuts-view="groups">Grupos de empleados</button><button class="active" data-shortcuts-view="users">Empleados y perfiles</button></nav><div class="security-scope-banner informative"><strong>Integración Shortcuts · Empleados y perfiles</strong><span>Aquí se consulta la relación entre la plantilla de Capital Humano y los perfiles que deben actualizarse en Shortcuts.</span></div><div id="adminProfiles" class="admin-panel"></div></section>
       <section id="regionalConfig" class="config-section" hidden></section>
       <section id="generalConfig" class="config-section" hidden></section>
       <section id="stockConfig" class="config-section" hidden></section>
@@ -197,11 +226,6 @@
         <label class="field"><span>Departamento</span><select id="employeeDepartment"></select></label>
         <label class="field"><span>Puesto laboral</span><select id="employeePosition"></select></label>
         <label class="field"><span>Sucursal</span><select id="employeeBranch"></select></label>
-        <div class="security-assignment-notice">
-          <span>Perfil sugerido para Sistemas</span>
-          <strong id="employeeSuggestedProfile">Pendiente de calcular</strong>
-          <small>Se calcula con el puesto y departamento. Capital Humano no asigna permisos; Sistemas recibe y confirma la solicitud.</small>
-        </div>
         <label class="field"><span>Estado laboral</span><select id="employeeState"><option value="ACTIVO">Activo</option><option value="SUSPENDIDO_TEMPORAL">Suspensión temporal</option><option value="TERMINADO">Terminación laboral</option></select></label>
       </div>
       <select id="employeeProfile" hidden aria-hidden="true" tabindex="-1"></select>
@@ -221,6 +245,30 @@
         <label class="field position-only"><span>Departamento</span><select id="catalogDepartment"></select></label>
       </div>
       <div class="dialog-actions"><button class="button" value="cancel">Cancelar</button><button class="button primary" id="saveCatalogBtn" value="default">Guardar</button></div>
+    </form>
+  </dialog>
+  <dialog class="admin-dialog small-dialog" id="nexusProfileDialog">
+    <form id="nexusProfileForm">
+      <div class="dialog-heading"><div><p class="kicker">Nexus SK</p><h2>Crear perfil de acceso</h2></div><button class="icon-close" id="closeNexusProfile" type="button" aria-label="Cerrar">×</button></div>
+      <div class="form-grid single"><label class="field"><span>Código único</span><input id="nexusProfileCode" required maxlength="40" placeholder="EJ. CAPITAL_HUMANO"></label><label class="field"><span>Nombre</span><input id="nexusProfileName" required maxlength="100" placeholder="Capital Humano"></label><label class="field"><span>Descripción</span><input id="nexusProfileDescription" maxlength="250" placeholder="Responsabilidades de este perfil"></label></div>
+      <div class="dialog-actions"><button type="button" class="button" id="cancelNexusProfile">Cancelar</button><button type="submit" class="button primary" id="saveNexusProfile">Crear perfil</button></div>
+    </form>
+  </dialog>
+  <dialog class="admin-dialog" id="nexusUserDialog">
+    <form id="nexusUserForm">
+      <div class="dialog-heading"><div><p class="kicker">Seguridad Nexus SK</p><h2>Dar de alta usuario</h2></div><button class="icon-close" id="closeNexusUser" type="button" aria-label="Cerrar">×</button></div>
+      <div class="nexus-employee-search"><label class="field"><span>Buscar empleado</span><input id="nexusUserEmployeeSearch" type="search" autocomplete="off" placeholder="Número, nombre, área, sucursal o sede"></label><div id="nexusEmployeeSearchCount" class="nexus-search-count">Escribe para buscar en la plantilla</div></div>
+      <div class="form-grid"><label class="field"><span>Empleado encontrado</span><select id="nexusUserEmployee" size="5"><option value="">Sin vincular a empleado</option></select></label><label class="field"><span>Correo de acceso</span><input id="nexusUserEmail" type="email" required placeholder="usuario@empresa.com"></label><label class="field"><span>Nivel de seguridad</span><select id="nexusUserProfile" required></select></label><label class="field"><span>Alcance</span><select id="nexusUserScope"><option value="GLOBAL">Global</option><option value="REGION">Región</option><option value="SUCURSAL">Sucursal</option><option value="PROPIO">Información propia</option></select></label><label class="field"><span>PIN personal de 4 dígitos</span><input id="nexusUserPin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" required autocomplete="new-password" placeholder="••••"></label><label class="field"><span>Confirmar PIN</span><input id="nexusUserPinConfirm" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" required autocomplete="new-password" placeholder="••••"></label></div>
+      <p class="nexus-user-help">El correo identifica la cuenta de acceso. El PIN de cuatro dígitos se guarda protegido y se utilizará para confirmar operaciones dentro de Nexus.</p>
+      <div class="dialog-actions"><button type="button" class="button" id="cancelNexusUser">Cancelar</button><button type="submit" class="button primary" id="saveNexusUser">Guardar usuario</button></div>
+    </form>
+  </dialog>
+  <dialog class="admin-dialog small-dialog" id="nexusUserSuccessDialog">
+    <form method="dialog">
+      <div class="dialog-heading"><div><p class="kicker">Alta completada</p><h2>Usuario guardado correctamente</h2></div></div>
+      <p id="nexusUserSuccessMessage" class="nexus-user-help"></p>
+      <p class="nexus-user-help"><strong>PIN configurado correctamente.</strong> Por seguridad, los cuatro dígitos no se muestran nuevamente.</p>
+      <div class="dialog-actions"><button class="button primary" value="default">Entendido</button></div>
     </form>
   </dialog>
   <section class="login-overlay" id="loginOverlay" aria-label="Acceso a la matriz">
@@ -246,13 +294,13 @@
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="src/domain/security-matrix.js?v=2"></script>
-  <script src="src/application/use-cases.js?v=1"></script>
-  <script src="src/adapters/supabase-adapter.js?v=1"></script>
+  <script src="src/application/use-cases.js?v=6"></script>
+  <script src="src/adapters/supabase-adapter.js?v=6"></script>
   <script src="src/adapters/browser-storage-adapter.js?v=1"></script>
-  <script src="src/adapters/local-preview-adapter.js?v=1"></script>
+  <script src="src/adapters/local-preview-adapter.js?v=10"></script>
   <script src="src/bootstrap.js?v=1"></script>
-  <script src="navigation.js?v=3"></script>
-  <script src="home-map.js?v=1"></script>
-  <script src="app.js?v=58"></script>
+  <script src="navigation.js?v=4"></script>
+  <script src="home-map.js?v=3"></script>
+  <script src="app.js?v=89"></script>
 </body>
 </html>

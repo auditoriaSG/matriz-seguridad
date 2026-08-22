@@ -7,7 +7,7 @@
   const localPreview=['localhost','127.0.0.1'].includes(global.location.hostname);
   const remote=localPreview?null:global.SKAdapters.createSupabasePorts({url:config.supabaseUrl,publishableKey:config.supabasePublishableKey});
   const ports=localPreview
-    ?global.SKAdapters.createLocalPreviewPorts(global.localStorage,config.localStorageKey+'-local-preview',config.localStorageKey+'-admin-local-v3','local-data/admin-snapshot.json')
+    ?global.SKAdapters.createLocalPreviewPorts(global.localStorage,config.localStorageKey+'-local-preview-v2',config.localStorageKey+'-admin-local-v3','local-data/admin-snapshot.json','local-data/matrix-snapshot.json')
     :{...remote,localState:global.SKAdapters.createBrowserStatePort(global.localStorage,config.localStorageKey)};
   if(!ports){global.SKApp=null;return}
   global.SKApp=global.SKApplication.createApplication(ports,global.SKDomain);

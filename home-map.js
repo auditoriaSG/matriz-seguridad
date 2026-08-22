@@ -8,6 +8,7 @@
   function init({layout={},onChange}){
     const board=document.querySelector('#homeMapBoard');
     if(!board)return;
+    const viewport=board.closest('.home-map-viewport');
     const lines=document.querySelector('#homeMapLines');
     const positions={...defaults,...layout};
     const nodes=[...board.querySelectorAll('[data-map-node]')];
@@ -42,7 +43,8 @@
       });
     });
     drawLines();
-    document.querySelector('#resetHomeMap').onclick=()=>{Object.keys(positions).forEach(key=>delete positions[key]);Object.assign(positions,defaults);nodes.forEach(place);drawLines();persist()};
+    requestAnimationFrame(()=>{viewport.scrollLeft=Math.max(0,(viewport.scrollWidth-viewport.clientWidth)/2)});
+    document.querySelector('#resetHomeMap').onclick=()=>{Object.keys(positions).forEach(key=>delete positions[key]);Object.assign(positions,defaults);nodes.forEach(place);drawLines();viewport.scrollLeft=Math.max(0,(viewport.scrollWidth-viewport.clientWidth)/2);persist()};
     activeMap={positions,nodes,place,drawLines};
   }
 
@@ -53,5 +55,7 @@
     activeMap.nodes.forEach(activeMap.place);activeMap.drawLines();
   }
 
-  global.HomeMap=Object.freeze({init,setLayout});
+  function center(){const viewport=document.querySelector('.home-map-viewport');if(viewport)requestAnimationFrame(()=>{viewport.scrollLeft=Math.max(0,(viewport.scrollWidth-viewport.clientWidth)/2)})}
+
+  global.HomeMap=Object.freeze({init,setLayout,center});
 })(window);
