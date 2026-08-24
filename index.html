@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="matrix-print.css?v=1">
   <link rel="stylesheet" href="nexus-access.css?v=2">
   <link rel="stylesheet" href="capital-human-fix.css?v=1">
+  <link rel="stylesheet" href="employee-records.css?v=1">
   <link rel="stylesheet" href="regional-database.css?v=1">
   <link rel="stylesheet" href="general-database.css?v=1">
   <link rel="stylesheet" href="shortcuts-documentation.css?v=1">
@@ -232,6 +233,9 @@
       <div class="dialog-actions"><button class="button" id="cancelEmployeeDialog" type="button">Cancelar</button><button class="button primary" id="saveEmployeeBtn" value="default">Guardar empleado</button></div>
     </form>
   </dialog>
+  <dialog class="admin-dialog employee-record-dialog" id="employeeRecordDialog">
+    <div id="employeeRecordContent"></div>
+  </dialog>
 
   <dialog class="admin-dialog small-dialog" id="catalogDialog">
     <form method="dialog" id="catalogForm">
@@ -294,14 +298,15 @@
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="src/domain/security-matrix.js?v=2"></script>
-  <script src="src/application/use-cases.js?v=6"></script>
-  <script src="src/adapters/supabase-adapter.js?v=7"></script>
+  <script src="src/application/use-cases.js?v=7"></script>
+  <script src="src/adapters/supabase-adapter.js?v=8"></script>
   <script src="src/adapters/browser-storage-adapter.js?v=1"></script>
-  <script src="src/adapters/local-preview-adapter.js?v=10"></script>
+  <script src="src/adapters/local-preview-adapter.js?v=11"></script>
   <script src="src/bootstrap.js?v=1"></script>
   <script src="navigation.js?v=4"></script>
   <script src="home-map.js?v=3"></script>
   <script src="matrix-pdf.js?v=1"></script>
-  <script src="app.js?v=94"></script>
+  <script src="app.js?v=95"></script>
+  <script src="employee-records.js?v=1"></script>
 </body>
 </html>

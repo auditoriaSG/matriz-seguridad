@@ -29,6 +29,18 @@
         verifyPin:pin=>client.rpc('seguridad_verificar_pin',{p_pin:pin}),
         saveCatalog:(type,command)=>client.rpc(type==='department'?'admin_guardar_departamento':'admin_guardar_puesto',command)
       }),
+      records:Object.freeze({
+        load:employeeId=>client.rpc('admin_documentos_empleado',{p_empleado_id:employeeId}),
+        upload:(path,file)=>client.storage.from('expedientes-empleados').upload(path,file,{upsert:false}),
+        register:command=>client.rpc('admin_registrar_documento_empleado',{
+          p_empleado_id:command.employeeId,p_tipo_codigo:command.typeCode,p_ruta_storage:command.path,
+          p_archivo_nombre:command.fileName,p_mime_tipo:command.mimeType,p_tamano_bytes:command.size
+        }),
+        async download(path){
+          const {data,error}=await client.storage.from('expedientes-empleados').createSignedUrl(path,60,{download:true});
+          return {data:data?.signedUrl||null,error};
+        }
+      }),
       access:Object.freeze({
         load:()=>client.rpc('nexus_panel_acceso'),
         saveProfile:command=>client.rpc('nexus_guardar_perfil',command),

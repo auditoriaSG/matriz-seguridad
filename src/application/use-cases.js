@@ -1,6 +1,6 @@
 (function(global){
   function createApplication(ports,domain){
-    if(!ports?.auth||!ports?.matrix||!ports?.admin||!ports?.access||!ports?.localState)throw new Error('Faltan puertos para iniciar la aplicación');
+    if(!ports?.auth||!ports?.matrix||!ports?.admin||!ports?.records||!ports?.access||!ports?.localState)throw new Error('Faltan puertos para iniciar la aplicación');
 
     return Object.freeze({
       auth:Object.freeze({
@@ -28,6 +28,12 @@
         setEmployeePin:(employeeId,pin)=>ports.admin.setEmployeePin(employeeId,pin),
         verifyPin:pin=>ports.admin.verifyPin(pin),
         saveCatalog:(type,command)=>ports.admin.saveCatalog(type,command)
+      }),
+      records:Object.freeze({
+        load:employeeId=>ports.records.load(employeeId),
+        upload:(path,file)=>ports.records.upload(path,file),
+        register:command=>ports.records.register(command),
+        download:path=>ports.records.download(path)
       }),
       access:Object.freeze({
         load:()=>ports.access.load(),
