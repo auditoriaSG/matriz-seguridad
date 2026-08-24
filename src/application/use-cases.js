@@ -39,7 +39,8 @@
         load:()=>ports.access.load(),
         saveProfile:command=>ports.access.saveProfile(command),
         saveDecision:command=>ports.access.saveDecision(command),
-        saveUser:command=>ports.access.saveUser(command)
+        saveUser:command=>ports.access.saveUser(command),
+        createUser:command=>ports.access.createUser(command)
       })
     });
   }

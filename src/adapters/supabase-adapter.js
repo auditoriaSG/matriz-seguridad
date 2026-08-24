@@ -45,7 +45,8 @@
         load:()=>client.rpc('nexus_panel_acceso'),
         saveProfile:command=>client.rpc('nexus_guardar_perfil',command),
         saveDecision:command=>client.rpc('nexus_guardar_decision',command),
-        saveUser:command=>client.rpc('nexus_guardar_usuario',command)
+        saveUser:command=>client.rpc('nexus_guardar_usuario',command),
+        createUser:command=>client.functions.invoke('nexus-crear-usuario',{body:command})
       })
     });
   }
